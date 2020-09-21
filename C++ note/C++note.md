@@ -4,6 +4,10 @@
 
 别名声明语句: `using SI = Sales_item`，SI为Sales_item的同义词。或者使用`typedef Sales_item SI`
 
+### 顶层const
+
+用名词**顶层const**来表示指针本身是一个常量，**底层const**表示指针所指的对象是一个常量。
+
 ## 第三章  字符串、向量和数组
 
 ### 迭代器
@@ -81,6 +85,15 @@ int &r = j, *q = p; //错误：不允许const转化为非常量
 
 显式转换：强制类型转换，格式为`cast-name <type>(expression)`，type是目标类型，expression是要转化的值，cast-name可以选择为static_cast  dynamic_cast  const_cast  reinterpret_cast 中的一种；区别详见p145
 
+可以使用`const_cast`改变运算对象的底层`const`
+
+```C++
+const char *pc;
+char *p = const_cast<char*>(pc); //将指向的底层const对象转化为非常量
+```
+
+注意，直接定义`const int i = 1`中的`const`是顶层的。
+
 运算符优先表 p147
 
 ## 第五章  语句
@@ -113,7 +126,7 @@ if (item1.isbn() != item2.isbn())
 cout<< item1+item2<< endl;
 ```
 
-在上述表达式中，如果item1和item2调用函数isbn()不同，则会抛出一个异常，该异常是类型runtime_error的对象。抛出异常会终止当前的函数，并将控制权转移给处理该异常的代码。
+在上述表达式中，如果item1和item2调用函数`isbn()`不同，则会抛出一个异常，该异常是类型`runtime_error`的对象。抛出异常会终止当前的函数，并将控制权转移给处理该异常的代码。
 
 try语句块： 其用法为：
 
@@ -178,6 +191,14 @@ int main(){
 传值参数：当初始化一个非引用类型的变量时，初始值被拷贝给变量。因此对于**指针形参**而言，执行指针拷贝操作时，拷贝的是指针的值，在函数内部改变这个形参并不会影响原有的实参指针，也就是说函数外和函数内是两个指针，只不过他们的内容相同，指向了同一个对象，因此可以在函数内部修改这个对象。**在C++中，通常使用引用类型代替指针类型来访问函数外部的对象**。使用引用可以避免拷贝较大的对象，从而节省时间。传递进入额外的形式参数（引用），可以返回额外的信息。
 
 函数在传递参数时，实参变量形参(引用)常量可以传递，但是实参标量形参(引用)变量会产生错误，即在修改常量。
+
+当形参是`const`时，需要注意是顶层还是底层。使用实参初始化顶层`const`的形参时，其**顶层`const`**将会被忽略，此时传递一个常量或者变量对象均可：
+
+```C++
+void fcn(const int i){...} // 调用fcn时，既可以传入int又可以传入const int
+```
+
+
 
 ### 数组形参
 
@@ -316,4 +337,90 @@ decltype(odd) *arrPtr(int i){
 ```
 
 注意`decltype`之后有代表指针定义的`*`
+
+## 函数重载
+
+如果在同一个作用域内，一个函数的名字被重复定义，称之为重载；例如：
+
+```C++
+void print(const char* cp);
+void print(const int* beg, const int* end);
+void print(const int ia[], size_t size);
+```
+
+调用这些函数时，编译器会根据传递的实参来对应选择重载函数。**main函数不能重载。**注意声明函数的形参名字可以省略不写，只标明类型即可。而使用`顶层const`定义的函数，顶层const会被忽略：
+
+```C++
+void fcn(const int i);
+void fcn(int i); // 错误，重复定义了fcn(int i)
+Record lookup(Phone*);
+Record lookup(Phone* const); // 错误，重复声明了 Record lookup(Phone*), const是顶层const
+
+Record lookup(Account*);
+Record lookup(const Account*); // 新函数，作用于指向常量的指针；此时的const是底层const（即指针所指向的对象是一个常量）
+```
+
+因此，**形参也被当作函数名字的一部分**。
+
+如果在局部作用域内声明 重载函数，那么会自动隐藏外部作用域中声明的函数，在不同的作用域中无法重载函数名。
+
+```C++
+void print(const string &);
+void print(double);
+void fooBar(int ival){
+    void print(int); // 局部作用域中重载print
+    print(3.14); // 会调用print(int), print(double)被自动隐藏。
+    print("Hello!") // 报错
+}
+```
+
+**在C++中，名字查找先于类型检查。**因此，编译器先会寻找对该函数名的声明，找到的是局部声明的`void print(int)`；而调用打印字符串的`print()`会报错，因为 `void print(const string &)`被隐藏了。
+
+### 默认实参
+
+一旦某一个形参被赋予默认值，那么它后面的所有形参都必须有默认实参。
+
+### 内联函数
+
+内联函数即为在每个调用点“内敛地”展开，例如定义如下的函数并调用：
+
+```C++
+inline const string& shorterString(const string &s1, const string &s2){
+    return s1.size() <= s2.size() ? s1: s2;
+}
+int main(){
+    string s1("ab");
+    string s2("cde");
+    cout << shorterString(s1, s2) << endl; // 将会展开为 cout << (s1.size() <= s2.size() ? s1: s2;) << endl;
+    return 0;
+}
+```
+
+内联函数用于优化规模较小的函数，使用前缀关键字`inline`来定义。
+
+`constexpr`
+
+**assert预处理宏**
+
+assert是一种预处理宏(preprocessor marco)。使用方法为:
+
+```C++
+assert (expr);
+```
+
+首先对expr求值，如果表达式为假(即为0)，则assert输出信息并终止程序的执行。如果表达式为真(即非0)，则assert什么都不做。
+
+**NDEBUG**
+
+使用`#define NDBUG`可以跳过所有的assert检查。默认状态下没有定义NDEBUG，意义为“关闭调试状态”。
+
+### 函数匹配
+
+针对重载函数，函数匹配的第一步是选定本次调用对应的重载函数集，集合中的函数称为候选函数；候选函数的特征为：与被调用的函数重名，且函数声明在函数调用点可见。第二步考察本次调用的实际参数，此时筛选出的函数称作可行函数：一是形参数量和本次调用的实参数量相等，二是每个实参的类型和对应的形参类型相同，或者可以转换为形参的类型。然后进一步会寻找最佳匹配：实参类型和形参类型越接近越好。如果最后筛选的函数多于一个，那么编译器会因为二义性请求而拒绝调用。
+
+**调用重载函数时应尽量避免强制类型转换。**
+
+实参类型转换 p219
+
+### 函数指针
 
