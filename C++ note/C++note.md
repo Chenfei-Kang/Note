@@ -2,7 +2,16 @@
 
 ### 类型别名
 
+传统的方法使用关键字**typedef**:
+
+```C++
+typedef double wages; // wages 是double的别名
+typedef double *p; //p是double* 的同义词
+```
+
 别名声明语句: `using SI = Sales_item`，SI为Sales_item的同义词。或者使用`typedef Sales_item SI`
+
+`decltype()`返回操作数或者表达式的类型，**并不会返回指向该类型的指针。**
 
 ### 顶层const
 
@@ -423,4 +432,73 @@ assert (expr);
 实参类型转换 p219
 
 ### 函数指针
+
+函数指针指向的是函数并非对象，指向某种特定类型。函数的类型为 去掉函数名之后的关键词，由返回类型和形参列表所组成。例如:
+
+```C++
+bool lengthCompare(const string &, const string &);
+// 函数lengthCompare的类型是bool (const string &, const string &)
+```
+
+定义一个同类型的指针，指向该函数：
+
+```C++
+bool (*pf)(const string &, const string &); // 未进行初始化
+pf = lengthCompare; // 将p指向函数lengthCompare
+pf = &lengthCompare; // 等价定义，取地址符可选
+pf("abc", "cde");
+(*pf)("abc", "cde"); //等价调用lengthCompare
+pf = 0; //指针置空，不指向任何函数
+```
+
+```C++
+bool (*pf)(const string &, const string &) = lengthCompare; //直接初始化定义
+```
+
+指针的类型必须和指向的函数类型相同。重载函数的指针定义时，必须和某一个重载函数类型相同。
+
+#### 函数指针形参
+
+函数的形参可以定义为指向某个函数的指针：
+
+```C++
+void useBigger(int a, int b, bool (*pf)(const string &, const string &) );
+void useBigger(int a, int b, bool pf(const string &, const string &) ); //等价定义
+//使用类型别名简化
+typedef bool Func(const string &, const string &); //定义了一个新的函数类型别名
+typedef decltype(lengthCompare) Func2; //上述定义的等价定义
+
+typedef decltype(lengthCompare) *FuncP2; //定义了一个函数指针别名
+typedef bool (*FuncP1)(const string &, const string &); //上述定义的等价定义
+
+void useBigger(int a, int b, Func);  //编译器自动将定义的Func类型转化为指针
+void useBigger(int a, int b, FuncP2); //等价声明
+```
+
+#### 返回指向函数指针
+
+使用类型别名简化：
+
+```C++
+using F = int(int, int*); //定义函数类型的别名F，F是函数类型
+using PF = int(*)(int, int*); // PF是函数指针
+F f1(int); // 错误，f1不能返回一个函数
+PF f1(int); // 正确，f1可以返回一个函数指针
+```
+
+## 第七章  类
+
+在类的内部声明成员函数，在类的外部定义成员函数。定义前需要加关键字 `类名称::`来说明名字空间。通常类声明和类定义在不同文件中。成员函数通常在类内声明，在类外定义。
+
+public: 在此作用域内的函数和成员可以被程序访问。
+
+private: 在此作用域内的函数和成员只能被类内的成员函数访问，不能在程序外访问。即实现了 “隐藏封装”。
+
+### 构造函数
+
+构造函数的名字和类的名字相同，并且禁止指定返回值和返回值类型。构造函数可以进行重载，较短的构造函数可以在类内直接定义。
+
+### 友元
+
+在类定义的开头，在前面加关键字`friend`来声明友元函数，友元函数可以访问私有成员和私有成员函数。
 
