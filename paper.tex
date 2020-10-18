@@ -1,0 +1,658 @@
+% interactapasample.tex
+% v1.05 - August 2017
+
+\documentclass[]{interact}
+
+\usepackage{epstopdf}% To incorporate .eps illustrations using PDFLaTeX, etc.
+\usepackage[caption=false]{subfig}% Support for small, `sub' figures and tables
+%\usepackage[nolists,tablesfirst]{endfloat}% To `separate' figures and tables from text if required
+%\usepackage[doublespacing]{setspace}% To produce a `double spaced' document if required
+%\setlength\parindent{24pt}% To increase paragraph indentation when line spacing is doubled
+
+\usepackage[longnamesfirst,sort]{natbib}% Citation support using natbib.sty
+\bibpunct[, ]{(}{)}{;}{a}{,}{,}% Citation support using natbib.sty
+\renewcommand\bibfont{\fontsize{10}{12}\selectfont}% To set the list of references in 10 point font using natbib.sty
+
+
+
+%%  mine
+\usepackage[none]{hyphenat}
+\include{amsmath}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	filecolor=black,      
+	urlcolor=black,
+	citecolor=black,
+}
+ \setlength\parindent{1.5em}
+ % \setlength{\lineskip}{1em}
+ \usepackage{float}
+\usepackage{mathdots}
+%\usepackage[natbibapa,nodoi]{apacite}% Citation support using apacite.sty. Commands using natbib.sty MUST be deactivated first!
+%\setlength\bibhang{12pt}% To set the indentation in the list of references using apacite.sty. Commands using natbib.sty MUST be deactivated first!
+%\renewcommand\bibliographytypesize{\fontsize{10}{12}\selectfont}% To set the list of references in 10 point font using apacite.sty. Commands using natbib.sty MUST be deactivated first!
+
+\theoremstyle{plain}% Theorem-like structures provided by amsthm.sty
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{notation}{Notation}
+
+
+\begin{document}
+
+% \articletype{ARTICLE TEMPLATE}% Specify the article type or omit as appropriate
+
+\title{Robust stability of fractional-order systems with structured uncertain parameters}
+
+\author{
+\name{Chenfei Kang\textsuperscript{a,b}, \,Junguo Lu\textsuperscript{a,b,*} \thanks{*Corresponding author, email: jglu@sjtu.edu.cn}}
+\affil{\textsuperscript{a}Department of Automation, Shanghai Jiao Tong University, Shanghai, P. R. China; \\ \textsuperscript{b}Key Laboratory of System Control and Information Processing, Ministry of Education of China, Shanghai, P. R. China}
+}
+
+\maketitle
+
+\begin{abstract}
+\sloppy{}
+In this paper, the robust stability for fractional-order linear time-invariant (LTI) systems with order: 0\textless\,$\alpha$\,\textless1 and structured uncertain parameters is considered. First, new sufficient conditions for the robust stability are presented by searching a parameter-dependent linear matrix inequality (LMI) solution. Then, stability conditions are separated from structured uncertain parameters by applying the Generalized Kalman-Yakubovi\v{c}-Popov (KYP) Lemma. It shows that the stability of the above fractional-order uncertain systems can be obtained by LMI conditions. In addition, other types of uncertainties such as polytopic uncertainties can also be resolved using this method. Finally, numerical examples are given to show the less conservatism of our methods. 
+\end{abstract}
+
+
+\begin{keywords}
+	Fractional-order system; robust stability; generalized Kalman-Yakubovi\v{c}-Popov (KYP) Lemma; linear matrix inequality; structured uncertain parameters;
+\end{keywords}
+\section{Introduction}
+
+\par Fractional calculus is a generalization of integer order calculus, which can be traced back to the work of famous mathematician Leibniz, Laplace, Riemann and other scholars (\citealp{Pod1998}). Since complex physical systems in the real world can be described by fractional calculus more accurately. Nowadays, there are increasing application of fractional calculus in science and engineering (\citealp{Vic2015, Sun2018}), such as electrical spectroscopy, random optimal search, robotics, signal and image processing, etc. Another important application is fractional-order control (\citealp{Azar2017,Azarmi2020, Bes2017, LiZ2017}). Benefited from the efforts of many scholars, there is a rapid development in fractional calculus.
+
+\par System stability has always been the core issue of control theory, including fractional-order systems. \cite{Mat1996} indicated that fractional-order systems is stable if and only if the eigenvalues of the system matrix are distributed in the stable region. \cite{Far2010} proposed a sufficient and necessary LMI condition for fractional-order systems with system order 0\textless\,$\alpha$\,\textless1, which is very convenient to check. But fractional-order systems usually contain various uncertainties due to measurement errors or external factors such as time and temperature. And it causes some difficulty to the analysis of the stability for the fractional-order systems. Since system matrix contains uncertainties, the eigenvalues or LMI solutions can't be calculated directly.
+\par There are many kinds of fractional-order system uncertainties, such as interval uncertainties (\citealp{Lu2010,Ala2015,Gao2015}), norm uncertainties (\citealp{Ibr2015,Lu2017}), polytopic uncertainties and mix uncertainties (\citealp{Matusu2017}). For polytopic uncertainties, \cite{Far2011} studied the stability of fractional-order polytopic uncertain systems with system order 0\textless\,$\alpha$\,\textless1. Then a sufficient condition was established by finding additional matrices to eliminate uncertain polytopic parameters. In \cite{Lu2013a}, sufficient stability conditions of fractional-order LTI systems with convex polytopic uncertainties and order 0\textless\,$\alpha$\,\textless2 were extended by introducing additional matrices in terms of LMI. When system order is 0\textless$\alpha$\textless1, parameter $\theta = min\left\lbrace \pi-\alpha\dfrac{\pi}{2}, \dfrac{\pi}{2}\right\rbrace$ in Theorem 2.1 of \cite{Lu2013a}, which caused increasing conservatism. In \cite{Lu2013b}, the robust stability for fractional-order system with structured uncertain parameters and order 1\textless$\alpha$\textless2 was discussed. Sufficient and necessary conditions were obtained through $\mu$-analysis. In \cite{Chen2015}, new sufficient conditions for robust stability of fractional-order systems with polytopic uncertainties were presented, which allowed second order uncertain parameters for both 0\textless\,$\alpha$\,\textless1 and 1\textless\,$\alpha$\,\textless2. In addition, other uncertainties mixed polytopic uncertainties issues have also been extensively studied. \cite{Abo2017} presented a sufficient condition for robust stability of fractional-order LTI system with polytopic and interval uncertainties. The sufficient condition was obtained for system order 1\textless\,$\alpha$\,\textless2. Since the stable area of 0\textless\,$\alpha$\,\textless1 contains 1\textless\,$\alpha$\,\textless2, the sufficient condition can apply to 0\textless\,$\alpha$\,\textless1 conservatively. In \cite{Xie2017}, the robust $H_\infty$ analysis for fractional-order LTI system subjected to polytopic uncertainties was investigated. A sufficient condition was obtained in terms of LMI by applying $H_\infty$ bounded real Lemma and generalized KYP Lemma.  And \cite{Li2018} investigated the robust stability of LTI fractional-order systems with polytopic and two-norm bounded uncertainties. Based on the equivalent condition in \cite{Far2010}, a sufficient condition was obtained. \cite{Yang2018} established a new sufficient condition for fractional-order systems with polytopic uncertainties for 1\textless\,$\alpha$\,\textless2, which was the promotion of \cite{Lu2013b}. In \cite{Zheng2020}, the robust stability of fractional-order systems with polynomial uncertainties was considered. The system uncertainties were polynomial functions of the parameters which is an extension of polytopic uncertainties. Sufficient conditions was obtained using Sum of Squares (SOS) programs to check the system stability for 0\textless\,$\alpha$\,\textless2.
+
+
+% For interval uncertainties, sufficient and necessary conditions were presented in \cite{Lu2010} for fractional-order interval uncertain systems with 0\textless\,$\alpha$\,\textless1. In \cite{Lu2013b}, sufficient and necessary conditions for fractional-order interval uncertain systems with order 1\textless\,$\alpha$\,\textless2 were proposed by applying $\mu$-analysis. The stability problem was transformed into  structural singular values conditions. And a probabilistic stability method was proposed in \cite{Ala2015} for fractional-order systems with interval uncertainties. The stable probability distribution can be calculated according to the order of the system. Moreover, a graph-based method was used to check the stability of fractional-order systems with interval uncertainties in \cite{Gao2015}. For norm uncertainties, \cite{Ibr2015} considered the stability of fractional-order systems with norm-bounded uncertainties, which is an extension of \cite{Far2010}. And in \cite{Lu2017}, the decentralied robust $H_\infty$ control problem for fractional-order systems subject to  norm-bounded uncertainties was considered. Then sufficient conditions for designing feedback controller was proposed. For mixed uncertainties, robust stability for fractional-order polynomials with complicated uncertainties was studied in \cite{Matusu2017} and a graphical method was presented. Robust stability was investigated by grid sampling and numerical calculation.
+
+% Besides, other kinds of uncertain mixed polytopic uncertainties are also widely studied. \cite{Abo2017} presented a sufficient condition for robust stability of fractional-order LTI system with polytopic and interval uncertainties. The sufficient condition is obtained for system order 1\textless\,$\alpha$\,\textless2. Since the stable area of 0\textless\,$\alpha$\,\textless1 contains 1\textless\,$\alpha$\,\textless2, the sufficient condition can apply to 0\textless\,$\alpha$\,\textless1 conservatively. In \cite{Xie2017}, the robust $H_\infty$ analysis for fractional-order LTI system subjected to polytopic uncertainties was investigated. A sufficient condition was obtained in terms of LMI by applying $H_\infty$ bounded real Lemma and generalized KYP Lemma.  And \cite{Li2018} investigates the robust stability of LTI fractional-order systems with polytopic and two-norm bounded uncertainties. Based on the equivalent condition in \cite{Far2010}, a sufficient condition is obtained. \cite{Yang2018} established a new sufficient condition for fractional-order systems with polytopic uncertainties for 1\textless\,$\alpha$\,\textless2, which is the promotion of \cite{Lu2013b}. \cite{Zheng2020} studied the robust stability of fractional-order systems with polynomial uncertainties. The system uncertainties are polynomial functions of the parameters which is an extension of polytopic uncertainties. Sufficient conditions is obtained using Sum of Squares (SOS) programs to check the system stability for 0\textless\,$\alpha$\,\textless2.  
+
+\par As can be seen from the above discussion, there are few improvements for the pure polytopic uncertainties with system order 0\textless\,$\alpha$\,\textless1 in recent years. The LMI conditions in \cite{Far2011, Chen2015} etc. didn't contain uncertain parameters, which resulting in increased conservatism. The conclusions dealing with mixed uncertainties(\citealp{Abo2017, Xie2017} etc.) can be applied to this problem. But the methods will degenerate and lead to increased conservatism due to single polytopic uncertainties instead of mixed uncertainties. In this paper, we consider the robust stability of fractional-order LTI system with system order 0\textless\,$\alpha$\,\textless1, which contains structured uncertain parameters. Parameter-dependent LMI solution is introduced to reduce conservatism based on the Generalized KYP Lemma. Meanwhile, polytopic uncertainties can also be solved through this method and the result is less conservative than others. 
+\par The paper is organized as follow: In Section 2, necessary lemmas and properties are introduced. Then parameter-dependent LMI solution is described in Section 3. The basic idea is applying the condition in \cite{Far2010} to fractional-order uncertain system by searching a polynomial solution. And the sufficient LMI conditions are separated from uncertain parameters by using generalized KYP Lemma. Finally, numerical examples show that our result is less conservative than others.
+
+
+
+%\par  \textbf{core} \cite{Abo2017} presented a sufficient condition for robust stability of fractional-order LTI system with polytopic and interval uncertainties. The sufficient condition is obtained for system order 1\textless\,$\alpha$\,\textless2. Since the stable area of 0\textless\,$\alpha$\,\textless1 contains 1\textless\,$\alpha$\,\textless2, the sufficient condition can apply to 0\textless\,$\alpha$\,\textless1 conservatively. 
+%\par \textbf{introduction} \cite{Ala2015} proposed a probabilistic stability method for fractional-order system with interval uncertainty. The stable probability distribution can be calculated according to the order of the system. 
+% \par \textbf{application}  The developments and applications of fractional-order control are introduced in \cite{Azar2017}.
+%\par In \cite{Bli2004a} \cite{Bli2004a} the necessity can be found.
+%\par \textbf{core} \cite{Chen2015} presented a new sufficient condition for robust stability of fractional-order system with polytopic uncertainties, which allows second order uncertain parameters for both 0\textless\,$\alpha$\,\textless1 and 1\textless\,$\alpha$\,\textless2. 
+%\par In \cite{Far2010}, a sufficient and necessary LMI condition is proposed for fractional-order system with system order 0\textless\,$\alpha$\,\textless1. Based on the LMI condition, \cite{Far2011} studied the stability of fractional order polytopic systems. A sufficient condition is established by finding additional matrices to eliminate uncertain polytopic parameters. 
+%\par \textbf{introduction}\cite{Gao2015} presented a graph-based method to check the stability of fractional-order system with interval uncertainties.
+%\par  \textbf{introduction} \cite{Ibr2015} considered the stability of fractional-order system with norm-bounded uncertainties, which is an extension of \cite{Far2010}.
+%\par  In \cite{Iwa2000} and \cite{Iwa2005} can find the proof of Lemma \ref{lemma:4}.
+%\par  \textbf{core} \cite{Li2018} investigates the robust stability of LTI fractional-order systems with polytopic and two-norm bounded uncertainties. Based on the equivalent condition in \cite{Far2010}, a sufficient condition is obtained. 
+%\par  \textbf{Introduction} \cite{Lu2009} presents necessary and sufficient conditions for the stability of fractional-order interval system with system order: 1\textless\,$\alpha$\,\textless2. Then \cite{Lu2010} promoted their conclusion for fractional-order interval system with 0\textless\,$\alpha$\,\textless1. 
+%\par In \cite{Lu2013a}, a sufficient stability condition of fractional-order LTI systems with convex polytopic uncertainties is extended by introducing additional matrices. And the sufficient conditions are suitable for 0\textless\,$\alpha$\,\textless2. 
+%\par \cite{Lu2013b} proposed a sufficient and necessary condition for fractional-order system with system order 1\textless\,$\alpha$\,\textless2 and interval uncertainties. The stability of the system is transformed into  structural singular values conditions. 
+%\par \cite{Mat1996} proof of Lemma \ref{lemma:1}.
+%\par \textbf{Introduction}\cite{Matusu2017} studied robust stability for fractional-order polynomials with complicated uncertainty and presented a graphical method. The uncertain structure contains polytopic uncertainty, interval uncertainty, etc. And robust stability is investigated by grid sampling and numerical calculation.
+% \par \textbf{Introduction}\cite{Pod1998} 
+%\par \textbf{Application}\cite{Sun2018} introduced the application of Fractional calculus in science and engineering.
+% \par \textbf{Application} \cite{Vic2015} studied of the flatness for fractional-order LTI systems, which is applied to the trajectory planning of the temperature of the metallic sheet heating.
+%\par \textbf{core} \cite{Xie2017} investigated the robust $H_\infty$ analysis for fractional-order LTI system subjected to polytopic uncertainties. A sufficient condition is obtained in terms of LMI by applying $H_\infty$ bounded real Lemma and generalized KYP Lemma. 
+%\par \textbf{core} \cite{Yang(2018)} established a new sufficient condition for fractional-order system with polytopic uncertainties for 1\textless\,$\alpha$\,\textless2, which is the promotion of \cite{Lu2013b}.
+%\par \cite{Zhang2010} proof of Lemma \eqref{lemma:4}.
+%\par \cite{Zheng2020} studied the robust stability of fractional-order system with polynomial uncertainties. The system uncertainties are polynomial functions of the parameters. Sufficient conditions is obtained using Sum of Squares (SOS) programs to check the system stability for 0\textless\,$\alpha$\,\textless2. 
+
+
+\par \textit{Notation:}  \ $\mathbb{R}$ represents the set of real numbers, $\mathbb{C}$ represents the set of complex numbers, and $j$ is the imaginary unit. $\mathbb{R}^{n\times n}$ represents the set of all $n\times n$ real number matrices, and $\mathbb{C}^{n\times n}$ represents the set of all $n\times n$ complex matrix. $\mathbb{H}^{n}$ is the set of all $n\times n$ complex Hermitian matrics. $Arg(z)$ represents the argument of a complex number $z$ and $eig(X)$ represents the set of all eigenvalues of matrix $X$. $X^H$ represents the conjugate transpose of matrix $X$. And $\bar{X}$ and $X^T$ respectively represent the conjugate matrix and transposed matrix of matrix $X$. $I_n$ represents $n\times n$ identity matrix. The symbol $\otimes$ stands for Kronecker product. $X^{p\otimes}$ is defined as $X^{(p-1)\otimes}\otimes X$, where $X^{0\otimes} = 1$. And we have $(A\otimes B)(C\otimes D) = (AC)\otimes(BD)$.
+\\ Following the symbols definition in \cite{Bli2004a}, let's define $\hat{J_k}, \check{J_k} \in \mathbb{R}^{k\times (k+1)}$ by:
+\begin{flalign}
+\hat{J_k} = \begin{bmatrix} I_k & 0_{k\times 1} \end{bmatrix}, \check{J_k} = \begin{bmatrix}0_{k\times 1} & I_k\end{bmatrix}\text{.} \nonumber
+\end{flalign}
+
+\noindent In addition, a particular vector $a^{[k]} \in \mathbb{R}^{n}$ is defined by: $ $
+\begin{flalign} \label{paraVec}
+\begin{bmatrix}
+1 \quad a \quad a^2 \quad \cdots \quad  a^{k-1}
+\end{bmatrix}^T
+\end{flalign}
+
+\noindent From \cite{Bli2004a}, there are the following properties:
+\begin{flalign}\label{property1}
+\hat{J_k}a^{[k+1]}=a^{[k]}, \; \check{J_k}a^{[k+1]}=aa^{[k]}.
+\end{flalign}
+\noindent  For any matrix $M \in \mathbb{C}^{p\times q}$ and any $z\in \mathbb{C}$, we have:
+\begin{flalign}\label{property2}
+(z^{[k]}\otimes I_p)M= z^{[k]} \otimes M = (I_k\otimes M)(z^{[k]}\otimes I_q). 
+\end{flalign}
+\section{Problem formulation and preliminaries}
+\par Consider the following fractional-order uncertain system:
+\begin{flalign}
+D^\alpha x(t) = Ax(t), \label{system}
+\end{flalign}
+where $\alpha$ is the fractional system order and 0\textless\,$\alpha$\,\textless1. Matrix $A \in \mathbb{R}^{n\times n}$ is defined by:
+\begin{flalign}
+A = A_0 + \sum_{i=1}^{m}a_iA_i, \label{systemMatrix}
+\end{flalign}
+where $A_i \in \mathbb{R}^{n\times n}, i=0,1,...,m$ are known constant matrices. Structured uncertain parameters $a_i \in \left[-1,1\right]$ for $i=1,2,...,m$. And $D^\alpha$ represents the Caputo fractional derivative:
+\begin{flalign}
+D^\alpha x(t) = \dfrac{1}{\Gamma(m-a)}\int_0^t \dfrac{ x^{(m)}(\tau)}{(t-\tau)^{\alpha+1-m}}d\tau,
+\end{flalign}
+where $m$ is an integer satisfying $m-1$ \textless $\alpha$ \textless $m$, $x^{(m)}(\tau)$ represents m-order derivative of $x(\tau)$, and $\Gamma()$ represents the Gamma function. 
+To proceed, we need the following definition and lemma:
+\begin{definition} \label{def:1}
+	{\rm \citep{Bli2004a}}: A parameter-dependent polynomially function $X(a)$ is defined by:
+	\begin{flalign} \nonumber
+	X(a) = (a_m^{[k]}\otimes a_{m-1}^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n)^T X_k (a_m^{[k]}\otimes a_{m-1}^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n),
+	\end{flalign}
+	where $X_k \in \mathbb{H}^{k^mn}$. Note that every element of the matrix $X_k$ is a polynomial of $a_m, a_{m-1}, ..., a_1$.
+\end{definition}
+\begin{lemma} \label{lemma:1}
+	{\rm \citep{Mat1996}:} Fractional system \eqref{system} is stable if and only if
+	\begin{flalign} \label{eigArg}
+	|Arg(eig(A))|>\alpha\dfrac{\pi}{2}.
+	\end{flalign}
+\end{lemma}
+
+\begin{lemma}\label{lemma:2}
+	{\rm \citep{Far2010}:} Fractional-order system \eqref{system} is stable if and only if $\exists X\in \mathbb{H}^{n}>0, s.t.$
+	\begin{flalign}
+	(rX+\bar{r}\bar{X})^TA^T + A(rX+\bar{r}\bar{X})<0,
+	\end{flalign}
+	where $r = e^{j(1-\alpha)\frac{\pi}{2}}$.
+\end{lemma}
+\begin{lemma}\label{lemma:3}
+	
+	{\rm (\citealp{Iwa2005}, the Generalized KYP Lemma):} Let matrices $\Theta \in \mathbb{H}^{n+m}$, $F \in C^{2n\times (n+m)}$, and $\Phi, \Psi \in \mathbb{H}^2$ be given. Define the following curves on the complex plane $\Lambda$ and $\bar{\Lambda}$:
+	\begin{flalign}
+	\Lambda(\Phi, \Psi)=\{\lambda \in \mathbb{C} \,| \, \sigma(\lambda, \Phi)=0, \sigma(\lambda, \Psi)\ge 0 \},  \nonumber \\
+	\bar{\Lambda}(\Phi, \Psi) =  \begin{cases}
+	\Lambda(\Phi, \Psi) \indent (\text{if $\Lambda$ is bounded}),  \\ \Lambda(\Phi, \Psi) \cup \infty \indent  (\text{else}).
+	\end{cases} \label{curve}
+	\end{flalign}
+	where $\sigma(\lambda, M) = \begin{bmatrix}\bar{\lambda}&1\end{bmatrix} M \begin{bmatrix}\lambda\\1\end{bmatrix} (\lambda \in \mathbb{C})$. Matrix $\Gamma_\lambda$ is defined by:
+	\begin{flalign}
+	\Gamma_{\lambda} = \begin{cases}[I_n \ \  -\lambda I_n] \; \lambda \in \mathbb{C}, \\ [0 \ \ -I_n] \; \indent \lambda=\infty. \end{cases}
+	\end{flalign}
+	Let $N_\lambda$ represent the null space of $\Gamma_{\lambda}F$. Then the following statements are equivalent:
+	\begin{enumerate}
+	\item The following inequality holds for all $\lambda \in \bar{\textbf{$\Lambda$}}(\Phi, \Psi)$:
+	      \begin{flalign}
+	       N_\lambda^H \Theta N_\lambda < 0,   \label{KYP(1)}
+	      \end{flalign}
+	\item There exist matices $Q, P \in \mathbb{H}^n, Q>0$  that:
+	      \begin{flalign} \label{KYP(2)}
+          F^H(\Phi \otimes P + \Psi \otimes Q)F + \Theta <0. 
+	      \end{flalign}
+	\end{enumerate}
+\end{lemma}
+\begin{lemma} \label{lemma:4}
+	{\rm \citep{Zhang2010}:} Let matrices $\Theta = \Theta^T \in \mathbb{R}^{n\times n}$ and $J, C\in \mathbb{R}^{k\times n}$ be given. Then the following two conditions are equivalent: 
+	\begin{enumerate}
+	\item For all  vectors $\zeta\in R^n,\zeta \neq 0$ that satisfy $(J-\delta C)\zeta=0$, inequality $\zeta^T\Theta \zeta<0$ holds, where $\delta\in R$ and $\left|\delta\right|\le 1$.
+	\\
+	\item There exist matrices  $D,G\in R^{k\times k}$,such that:
+	\begin{equation}\nonumber
+	D=D^T>0, \ G+G^T=0,\ \Theta<\begin{bmatrix}
+	C \\
+	J\end{bmatrix}^T
+	\begin{bmatrix}
+	-D & G \\
+	G^T & D
+	\end{bmatrix}
+	\begin{bmatrix}
+	C \\
+	J
+	\end{bmatrix}.
+	\end{equation}
+	\end{enumerate}
+\end{lemma}
+%\begin{remark}
+%	Lemma \ref{lemma:4} can also be used to decouple LMI condition from uncertain parameters. But the result is more conservative.
+%\end{remark}
+% \par Our objective is to analyze the robust stability of fractional-order systems \eqref{system}. However, system \eqref{system} contains structured uncertain parameters, which makes it difficult to obtain stable conditions. When Lemma \ref{lemma:2} is applied to system \eqref{system}, there is not always a solution  for any uncertain parameters. So our method is to find a parameter-dependent solution for matrix $X$. And it can be expressed as a parameter-dependent polynomially function by Definition \ref{def:1}. Then a LMI condition without uncertain parameters is obtained by applying Lemma \ref{lemma:3}.  
+
+\section{Main Results}
+Using Lemma \ref{lemma:2}, we can obtain a new sufficient condition for the stability of system \eqref{system} with uncertain parameters:
+\begin{theorem}\label{theorem:1}
+	Fractional-order system \eqref{system} with structured uncertain parameters is robustly asymptotically stable if there exists a positive integer $k$ and a matrix $X_k \in \mathbb{H}^{k^mn}>0$, such that for any $a_i \in [-1,1], \ i=1,2,...,m$:
+	\begin{flalign} \label{R(a)_definition}
+	R(a) = (a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)^T R_k(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)<0,
+	\end{flalign}
+	where $R_k$ is defined as
+	\begin{flalign}
+	R_k = & (J_k^{m\otimes} \otimes I_n)^T(rX_k^T+\bar{r}X_k)\left[ J_k^{m\otimes}\otimes A_0^T+\sum_{i=1}^{m}(\hat{J_k}^{(m-i)\otimes}\otimes\check{J_k}\otimes\hat{J_k}^{(i-1)\otimes}\otimes A_i^T )\right]   \nonumber \\
+	& +\left[ J_k^{m\otimes}\otimes A_0^T+\sum_{i=1}^{m}(\hat{J_k}^{(m-i)\otimes}\otimes\check{J_k}\otimes\hat{J_k}^{(i-1)\otimes}\otimes A_i^T )\right] ^T(rX_k+\bar{r}\bar{X}_k)(J_k^{m\otimes} \otimes I_n) \label{Rk}.
+	\end{flalign}
+\end{theorem}
+\begin{proof}
+	\par Similar to Proposition 3.2 in \cite{Bli2004a}, a parameter-dependent polynomially solution is obtained for the LMI condition in Lemma \ref{lemma:2}. But there are some differences. Considering the correctness and completeness, the detailed proof process of Theorem \ref{theorem:1} is given below. 
+	\par Suppose that every element of the solution $X$ in Lemma \ref{lemma:2} is a polynomial of structured uncertain parameters $\{a_m,...,a_1\}$. So $X$ can be expressed as $X(a)$, which depends on uncertain parameters:
+	\begin{flalign} \nonumber
+	X(a) = (a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n)^T X_k (a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n),
+	\end{flalign}
+	Note that $X(a) = X^{H}(a)$ due to $X_k \in \mathbb{H}^{k^mn}$. And 
+	\begin{flalign}
+	R(a) &= (rX(a) + \bar{r}\bar{X}(a))^TA^T + A(rX(a) + \bar{r} \bar{X}(a)) \nonumber \\
+		 &= (rX^T(a) + \bar{r}X^H(a))A^T + A(rX(a) + \bar{r}\bar{X}(a)) \nonumber \\
+		 &= (rX^T(a) + \bar{r}X(a))A^T + A(rX(a) + \bar{r}\bar{X}(a)) \label{R(a)}.
+	\end{flalign}
+	So Lemma \ref{lemma:2} holds if  $X(a) > 0,R(a)<0$. Without loss of generality, we can firstly calculate $AX(a)$:
+	\begin{flalign}
+	AX(a) &= A(a_m^{[k]} \cdots \otimes a_1^{[k]}\otimes I_n)^T X_k (a_m^{[k]}\otimes  \cdots \otimes a_1^{[k]}\otimes I_n) \nonumber \\
+	      &= ((a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n)A^T)^T X_k(a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n) \label{AX}.
+	\end{flalign}
+	Then we will prove that $R(a)$ is also a parameter-dependent polynomially function by Definition \ref{def:1}. For the right part of $X_k$ in \eqref{AX}, we can get the following result by using \eqref{property1}:
+	\begin{flalign}
+	&a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n \nonumber \\
+	&=(\hat{J_k}a_m^{[k+1]})\otimes \cdots \otimes (\hat{J_k}a_1^{[k+1]})\otimes I_n  \nonumber \\
+	&=\left[\hat{J_k}^{2\otimes}(a_m^{[k+1]} \otimes a_{m-1}^{[k+1]} )\right] \otimes \left[ (\hat{J_k}a_{m-2}^{[k+1]})\otimes \cdots \otimes (\hat{J_k}a_1^{[k+1]})\otimes I_n\right]  \nonumber \\
+	& \indent \indent  \vdots \nonumber \\
+	&=(\hat{J_k}^{m\otimes}\otimes I_n)(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n) \label{AX:rightPart}.
+	\end{flalign}
+	Applying \eqref{property1} and \eqref{property2} to the left  part of \eqref{AX}, we can also get:
+	\begin{flalign}
+	&(a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n)A^T \indent  \nonumber  \\
+    &=\left[ I_{k^m}\otimes(A_0+\sum_{i=1}^{m}a_iA_i)^T\right] (a_m^{[k]}\otimes a_{m-1}^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n) \nonumber \\
+	&=(I_{k^m}\otimes A_0^T)(a_m^{[k]} \otimes \cdots \otimes a_1^{[k]}\otimes I_n) + \sum_{i=1}^{m}( I_{k^m}\otimes A_i^T )(a_m^{[k]}\otimes \cdots \otimes a_ia_i^{[k]}\otimes \cdots \otimes a_1^{[k]} \otimes I_n) \nonumber \\
+    &=(I_{k^m}\otimes A_0^T)(\hat{J_k}^{m\otimes}\otimes I_n)(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n) \nonumber \\
+    & \indent +\sum_{i=1}^{m}(I_{k^m}\otimes A_i^T)(\hat{J_k}a_m^{[k+1]}\otimes \cdots \otimes \check{J_k}a_i^{[k+1]} \otimes \cdots \otimes \hat{J_k}a_1^{[k+1]} \otimes I_n) \nonumber \\
+    &=(\hat{J_k}^{m\otimes}\otimes A_0^T)(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)  \nonumber \\
+    & \indent +\sum_{i=1}^{m}(I_{k^m}\otimes A_i^T)(\hat{J_k}^{(m-i)\otimes} \otimes \check{J_k}\otimes \hat{J_k}^{(i-1)\otimes}\otimes I_n)(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n) \nonumber \\
+    &=\left[\hat{J_k}^{m\otimes}\otimes A_0^T + \sum_{i=1}^{m}(\hat{J_k}^{(m-i)\otimes}\otimes \check{J_k} \otimes \hat{J_k}^{(i-1)\otimes}\otimes A_i^T) \right](a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n) \label{AX:leftPart}.
+	\end{flalign}
+	Substitute \eqref{AX:rightPart} and \eqref{AX:leftPart} into \eqref{AX}:
+	\begin{flalign}
+	&((a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n)A^T)^T X_k(a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n) \nonumber \\
+	= &\; (a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)^T\left[ J_k^{m\otimes}\otimes A_0^T+\sum_{i=1}^{m}( \hat{J_k}^{(m-i)\otimes}\otimes\check{J_k}\otimes\hat{J_k}^{(i-1)\otimes}\otimes A_i^T )\right] ^T  \nonumber \\
+	&  \indent \indent \cdot X_k (\hat{J_k}^{m\otimes}\otimes I_n)(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n) \label{AX:result}.
+	\end{flalign}
+	And it is the same for $A\bar{X}(a)$:
+	\begin{flalign}
+	A\bar{X}(a) &= \left[ (a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n)A^T\right] ^T \bar{X}_k (a_m^{[k]}\otimes \cdots \otimes a_1^{[k]}\otimes I_n) \nonumber \\
+	            &= (a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)^T\left[ J_k^{m\otimes}\otimes A_0^T+\sum_{i=1}^{m}(\hat{J_k}^{(m-i)\otimes}\otimes\check{J_k}\otimes\hat{J_k}^{(i-1)\otimes}\otimes A_i^T )\right] ^T  \nonumber \\
+	            &  \indent \indent \cdot \bar{X}_k (\hat{J_k}^{m\otimes}\otimes I_n)(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n). \label{AX:conjResult}
+	\end{flalign}
+	Substitute \eqref{AX:result} and \eqref{AX:conjResult} into $A(rX(a)+\bar{r}\bar{X}(a))$:
+	\begin{flalign}
+	& A(rX(a)+\bar{r}\bar{X}(a)) \nonumber \\
+	= & (a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)^T\left[ J_k^{m\otimes}\otimes A_0^T+\sum_{i=1}^{m}(\hat{J_k}^{(m-i)\otimes}\otimes\check{J_k}\otimes\hat{J_k}^{(i-1)\otimes}\otimes A_i^T )\right] ^T  \nonumber \\
+	& \indent  \cdot (rX_k+\bar{r}\bar{X}_k)(\hat{J_k}^{m\otimes}\otimes I_n)(a_m^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n). \label{rAX&conj}
+	\end{flalign}
+	By substituting \eqref{rAX&conj} into \eqref{R(a)}, we can conclude that Lemma \ref{lemma:2} holds if Theorem \ref{theorem:1} holds. So the fractional-order system \eqref{system} with structured uncertain parameters is robustly asymptotically stable.
+\end{proof}
+\begin{remark}
+	The proof of the theorem is similar to proposition 3.2 in \cite{Bli2004a}. But the difference is that $rX_k + \bar{r}\bar{X}_k$ is a real number matrix but not a symmetric matrix. In \cite{Bli2004a}, polynomially parameter-dependent quadratic functions $P(z)$ and $R(z)$ was obtained where $z \in \mathbb{C}$ and  $|z|\leq1$. But in Theorem \ref{theorem:1}, uncertain parameters $a_i \in \mathbb{R}$. So the form of $A\bar{X}$ is consistent with $AX$.
+\end{remark}
+\par Theorem \eqref{theorem:1} is a sufficient condition for the robust stability of system \eqref{system}. The basic idea of Theorem \ref{theorem:1} is to find a parameter-dependent polynomially function for LMI solution. But the LMI condition in Theorem \ref{theorem:1} contains uncertain parameters, which can not be checked directly. The decoupling of uncertain parameters and LMI conditions is realized by Generalized KYP Lemma \ref{lemma:3}, which is stated in the following theorem.
+\begin{theorem}\label{theorem:2}
+	Fractional-order system \eqref{system} with structured uncertain parameters is robustly asymptotically stable if there exists a positive integer $k$, (2m+1) matrices $X_k \in \mathbb{H}^{k^mn}>0$ and  $Q_{k,h}, \, P_{k,h} \in \mathbb{H}^{k^{m-h+1}(k+1)^{h-1}n}, Q_{k,h}>0,\ h=1,2,...,m$, such that:
+	\begin{flalign}\indent \indent 
+	&X_k >0,& \nonumber \\
+	&C_h = (\hat{J_k}^{(m-h+1)\otimes}\otimes I_{(k+1)^{h-1}n}), \indent D_h = (\hat{J_k}^{(m-h)\otimes}\otimes \check{J_k}\otimes I_{(k+1)^{h-1}n}),& \nonumber \\
+	&R_k + \sum_{h=1}^{m}( C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - jD_h^TP_{k,h}C_h + jC_h^TP_{k,h}D_h )< 0. & \label{FinalLMI}
+	\end{flalign}
+	where $R_k$ is defined by \eqref{Rk}.
+\end{theorem} 
+\begin{proof}
+	Define the following matrices:
+	\begin{flalign} 
+	f_k =  \begin{bmatrix}1\\0_{(k-1)\times 1}\end{bmatrix}, \ F_k = \begin{bmatrix} 0_{1\times(k-1)}& 0\\ I_{k-1} & 0_{(k-1)\times 1} \end{bmatrix},  \nonumber 
+	\end{flalign}
+	\vspace{-2ex}
+	\begin{flalign}
+	\xi_i = a_m^{[k+1]}\otimes a_{m-1}^{[k+1]} \otimes \cdots \otimes a_{i+1}^{[k+1]}\otimes I_{(k+1)^{i} n}, \indent  \xi_m = I_{(k+1)^{m}n}. \nonumber 
+	\end{flalign}
+	It's easy to prove that
+	\begin{flalign}
+	(I_k - aF_k)^{-1}f_k = a^{[k]}. \label{property3}
+	\end{flalign}
+	Consider the following property for $i=0,1,...,m$. \\
+	Property $\Delta(i)$:
+	 \par \textit{There exists a positive integer $k$ and (2i+1) matrices $X_k \in \mathbb{H}^{k^mn}>0, \ Q_{k,h}, \, P_{k,h} \in \mathbb{H}^{k^{m-h+1}(k+1)^{h-1}n}, Q_{k,h}>0,\ h=1,2,...,i.$, for all $\{a_{i+1},a_{i+2},...,a_m\} \in [-1,1]^{m-i}$}, \textit{the following conditions are satisfied:}
+	\begin{flalign}
+	&\xi_i^T\left[ R_k + \sum_{h=1}^{i}(C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - jD_h^T P_{k,h} C_h +jC_h^T P_{k,h} D_h)\right] \xi_i <0, \nonumber 
+	\end{flalign} 
+	Note that $\Delta(0)$ represents condition \eqref{R(a)_definition} in Theorem \ref{theorem:1}, and $\Delta(m)$ represents condition \eqref{FinalLMI} in Theorem \ref{theorem:2}. We will prove  $\Delta(i+1)\Rightarrow\Delta(i)$. 
+	\begin{flalign}
+	&\Delta(i+1):&\nonumber \\
+	&\xi_{i+1}^T\left[ R_k + \sum_{h=1}^{i+1}(C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - jD_h^T P_{k,h} C_h +jC_h^T P_{k,h} D_h)\right] \xi_{i+1} <0, \nonumber \\
+	&\iff \xi_{i+1}^T\left[ R_k + \sum_{h=1}^{i}(C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - j D_h^T P_{k,h} C_h +j C_h^T P_{k,h} D_h)\right] \xi_{i+1}   \nonumber \\
+	\vspace{1em}
+	& +\xi_{i+1}^T(C_{i+1}^T Q_{k,i+1}C_{i+1} -D_{i+1}^T Q_{k,{i+1}}D_{i+1} - j D_{i+1}^T P_{k,i+1} C_{i+1} +j C_{i+1}^T P_{k,i+1} D_{i+1})  \xi_{i+1} < 0.  \label{Delta(i+1)} 
+	\end{flalign}
+	For $C_{i+1}$ and $D_{i+1}$, by using \eqref{property1} and \eqref{property2}, we can get
+	\begin{flalign}
+	&C_{i+1}\xi_{i+1} \nonumber \\
+	=& (\hat{J_k}^{(m-i)\otimes}\otimes I_{(k+1)^{i}n})(a_m^{[k+1]}\otimes a_{m-1}^{[k+1]} \otimes \cdots \otimes a_{i+2}^{[k+1]}\otimes I_{(k+1)^{i+1} n})  \nonumber \\
+	=& (I_{k^{m-i-1}}\otimes \hat{J_k} \otimes I_{(k+1)^i n})\left[ (\hat{J_k}a_m^{[k+1]})\otimes (\hat{J_k}a_{m-1}^{[k+1]})\otimes \cdots \otimes (\hat{J_k}a_{i+2}^{[k+1]})\otimes I_{(k+1)^{i+1} n}\right]   \nonumber \\
+	=& (a_m^{[k]}\otimes a_{m-1}^{[k]} \otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})(\hat{J_k} \otimes I_{(k+1)^i n}).  \label{Ch} \\
+	& \nonumber \\
+	&D_{i+1}\xi_{i+1} \nonumber \\
+	=&(\hat{J_k}^{(m-i-1)\otimes}\otimes \check{J_k}\otimes I_{(k+1)^{i}n})(a_m^{[k+1]}\otimes a_{m-1}^{[k+1]} \otimes \cdots \otimes a_{i+2}^{[k+1]}\otimes I_{(k+1)^{i+1} n})     \nonumber \\
+	=&(a_m^{[k]}\otimes a_{m-1}^{[k]} \otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})(\check{J_k} \otimes I_{(k+1)^i n}). \label{Dh}
+	\end{flalign}
+	Substitute \eqref{Ch} and \eqref{Dh} into \eqref{Delta(i+1)}:
+	\begin{flalign}
+	&\Delta(i+1) \iff \nonumber \\
+	&\xi_{i+1}^T \left[ R_k + \sum_{h=1}^{i}(C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - j D_h^T P_{k,h} C_h +j C_h^T P_{k,h} D_h) \right]  \xi_{i+1} \nonumber \\
+	&+ (\hat{J_k} \otimes I_{(k+1)^i n})^T(a_m^{[k]} \otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})^T Q_{k,i+1}\nonumber \\
+	&\hspace{5cm} \cdot (a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})(\hat{J_k} \otimes I_{(k+1)^i n}) \nonumber \\
+	&-(\check{J_k} \otimes I_{(k+1)^i n})^T(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})^T Q_{k,i+1}   \nonumber \\
+	&\hspace{5cm}\cdot(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})(\check{J_k} \otimes I_{(k+1)^i n}) \nonumber \\
+	&-j(\check{J_k} \otimes I_{(k+1)^i n})^T(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})^T P_{k,i+1}    \nonumber \\
+	&\hspace{5cm} \cdot(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})(\hat{J_k} \otimes I_{(k+1)^i n})\nonumber \\
+	&+j(\hat{J_k} \otimes I_{(k+1)^i n})^T(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})^T P_{k,i+1}  \nonumber \\
+	&\hspace{4cm}\cdot(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})(\check{J_k} \otimes I_{(k+1)^i n})<0,    \label{Delta(i+1)_2} 
+	% &\hspace{8cm} \nonumber 
+	\end{flalign}
+	Define $\Theta, \ \tilde{Q}_{k,i+1}, \ \tilde{P}_{k,i+1}$ as:
+	\begin{flalign}
+	&\Theta =\xi_{i+1}^T\left[ R_k + \sum_{h=1}^{i}(C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - j D_h^T P_{k,h} C_h +j C_h^T P_{k,h} D_h)\right]  \xi_{i+1}, \label{Theta} &\\
+	&\tilde{Q}_{k,i+1} = (a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})^T Q_{k,i+1} (a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n}),&\label{Q_tilde} \\
+	&\tilde{P}_{k,i+1}=(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})^T P_{k,i+1} (a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n}).&\label{P_tilde}
+	\end{flalign}
+	Note that $Q_{k.i+1}, P_{k,i+1} \in \mathbb{H}^{k^{m-i}(k+1)^{i}n}, Q_{k,i+1}>0$, so we can get: $\tilde{Q}_{k,i+1}, \tilde{P}_{k,i+1}$ are Hermitian matrices in $\mathbb{H}^{k(k+1)^{i+1} n}$, and $\tilde{Q}_{k,i+1}>0$. Suppose there is a vector $y \in \mathbb{C}^{k(k+1)^{i+1} n}$ that satisfies $y^H\tilde{Q}_{k,i+1}y = 0 $:
+	\begin{flalign}
+	y^H(a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})^T Q_{k,i+1} (a_m^{[k]}\otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})y = 0. \nonumber
+	\end{flalign}
+	Because $Q_{k,i+1}>0$, we can conclude that:
+	\begin{flalign}
+	 &(a_m^{[k]}\otimes a_{m-1}^{[k]} \otimes \cdots \otimes a_{i+2}^{[k]}\otimes I_{k(k+1)^{i+1} n})y = 0 \nonumber \\
+	 \iff  & \indent a_m^{[k]}\otimes a_{m-1}^{[k]} \otimes \cdots \otimes a_{i+2}^{[k]}\otimes y = 0. \label{y=0}
+	\end{flalign}
+	Note that in \eqref{y=0}, $1\otimes y = 0$. So $y = 0_{k(k+1)^{i+1} n \times 1}$, and $\tilde{Q}_{k,i+1}>0$. By   \eqref{Theta} $\sim$ \eqref{P_tilde}, \eqref{Delta(i+1)_2} is equivalent to:
+	\begin{flalign}
+	&\Theta + (\hat{J_k} \otimes I_{(k+1)^i n})^T\tilde{Q}_{k,i+1}(\hat{J_k} \otimes I_{(k+1)^i n}) - (\check{J_k} \otimes I_{(k+1)^i n})^T \tilde{Q}_{k,i+1}(\check{J_k} \otimes I_{(k+1)^i n})  \nonumber \\
+	&-j(\check{J_k} \otimes I_{(k+1)^i n})^T\tilde{P}_{k,i+1}(\hat{J_k} \otimes I_{(k+1)^i n})+j(\hat{J_k} \otimes I_{(k+1)^i n})^T\tilde{P}_{k,i+1}(\check{J_k} \otimes I_{(k+1)^i n}) < 0. \label{Delta(i+1)_3}
+	\end{flalign}
+	Note that:
+	\begin{equation}\nonumber
+	(\hat{J_k}\otimes I_{(k+1)^i n}) = (f_k\otimes I_{(k+1)^i n} \ \ F_k \otimes I_{(k+1)^i n}) = (M \ N),
+	\end{equation}
+	\begin{equation}\nonumber
+	(\check{J_k}\otimes I_{(k+1)^i n}) = (0_{k(k+1)^i n \times (k+1)^i n} \ \ I_{k(k+1)^i n}).
+	\end{equation}
+	Define 
+	\begin{flalign} \nonumber
+	F=\begin{bmatrix} M & N\\ 0_{k(k+1)^i n \times (k+1)^i n} & I_{k(k+1)^i n}\end{bmatrix}, \indent \Phi = \begin{bmatrix}0 & j\\ -j & 0 \end{bmatrix}, \indent \Psi = \begin{bmatrix}1& 0 \\ 0 & -1\end{bmatrix}.
+	\end{flalign}
+	Let $\lambda = \dfrac{1}{a_{i+1}}$. And the curve $\bar{\Lambda}(\Phi, \Psi)$ in the complex plane:
+	\begin{flalign} \nonumber
+	\bar{\Lambda}(\Phi, \Psi) = \{\lambda \in \mathbb{R} | \lambda \leq -1 \cup \lambda \geq 1 \}.
+	\end{flalign}
+	From Lemma \ref{lemma:3}, \eqref{KYP(2)} is already satisfied by \eqref{Delta(i+1)_3}. 
+	\begin{flalign} \nonumber
+	\Delta(i+1) \Rightarrow F^H(\Phi \otimes \tilde{P}_{k,i+1} + \Psi \otimes \tilde{Q}_{k,i+1})F + \Theta <0, 
+	\end{flalign}
+	So \eqref{KYP(1)} is satisfied:
+	\begin{flalign} \nonumber
+	N_\lambda^H \Theta N_\lambda < 0,  \indent  \forall \lambda \in \bar{\textbf{$\Lambda$}}(\Phi, \Psi);
+	\end{flalign}
+    It's easy to prove that $N_\lambda$ is :
+	\begin{flalign} \nonumber
+	\begin{bmatrix}I_{(k+1)^i n}\\ a_{i+1}(I_{k(k+1)^i n} - a_{i+1}N)^{-1}M
+	\end{bmatrix} = (a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n}).
+	\end{flalign}
+	So the following condition holds:
+	\begin{flalign}
+	&\hspace{2cm}(a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n})^T \Theta (a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n})< 0 \nonumber \\
+	&\iff (a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n})^T\xi_{i+1}^T \cdot \nonumber \\
+	&\hspace{2cm}\left[ R_k + \sum_{h=1}^{i}(C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - j D_h^T P_{k,h} C_h +j C_h^T P_{k,h} D_h)\right]  \nonumber \\
+    &\hspace{4cm} \cdot \xi_{i+1}(a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n}) <0.	  \label{Delta(i)} 
+	\end{flalign}
+	And 
+	\begin{flalign}
+	&\ \xi_{i+1}(a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n}) \nonumber \\
+	=& \ (a_m^{[k+1]}\otimes \cdots \otimes a_{i+2}^{[k+1]}\otimes I_{(k+1)^{i+1} n})(a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n})  \nonumber \\
+	=& \ a_m^{[k+1]}\otimes \cdots \otimes a_{i+2}^{[k+1]}\otimes a_{i+1}^{[k+1]}\otimes I_{(k+1)^i n} \nonumber \\
+	=& \ \xi_i. \label{property4}
+	\end{flalign}
+	From \eqref{property4}, we can conclude that \eqref{Delta(i)} is equivalent to: There exists a positive integer $k$ and $(2i+1)$ matrices $X_k \in \mathbb{H}^{k^mn}>0, \ Q_{k,h}, \, P_{k,h} \in \mathbb{H}^{k^{m-h+1}(k+1)^{h-1}n}, Q_{k,h}>0,\ h=1,2,...,i$, for all $\{a_{i+1},a_{i+2},...,a_m\} \in [-1,1]^{m-i}$, such that the following conditions are satisfied:
+	\begin{flalign}
+	\xi_i^T\left[ R_k + \sum_{h=1}^{i}(C_h^T Q_{k,h}C_h -D_h^T Q_{k,h}D_h - jD_h^T P_{k,h} C_h +jC_h^T P_{k,h} D_h)\right] \xi_i <0. \nonumber
+	\end{flalign}
+	So  property $\Delta(i)$ holds. Taking $i$ from $m$ to $0$, we get $\Delta(m)\Rightarrow \Delta(0)$. So Theorem \ref{theorem:2} $\Rightarrow$ Theorem \ref{theorem:1}, and system \eqref{system} is robustly asymptotically stable.
+\end{proof}
+\begin{remark}
+	Note that $\tilde{Q}_{k,i+1}$ and $\tilde{P}_{k,i+1}$ are parameter-dependent polynomially function. $\Delta(i+1)$ provide a polynomial solution for Lemma \ref{lemma:3} to $\Delta(i)$. It's only sufficient but not necessary. In \cite{Bli2004a}, real uncertain parameters were studied by changing the variables $r = \dfrac{z+\bar{z}}{2}$ in order to apply the KYP Lemma. Because the KYP lemma requires that the uncertain parameters must be distributed on the unit circle of the complex plane. But in Theorem \ref{theorem:2}, the Generalized KYP Lemma \ref{lemma:3} is used to define a new curve $\bar{\Lambda}$ instead of unit circle in the complex plane and solve the problem of real uncertain parameters. And it then produces $- jD_h^T P_{k,h} C_h +jC_h^T P_{k,h} D_h$ which makes it different from \cite{Bli2004a}. In addition, it also reduces the  conservatism of Theorem \ref{theorem:2}.
+\end{remark}
+\begin{remark}
+	Note that we can rewrite \eqref{R(a)_definition} as: 
+	\begin{flalign*} 
+	& (a_m^{[k+1]}\otimes a_{m-1}^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)^T \cdot&\\
+	&\begin{bmatrix}
+	\hat{J_k}\otimes \cdots \otimes \hat{J_k} \otimes I_n \\
+	\hat{J_k}\otimes \cdots \otimes \check{J_k}\otimes I_n \\
+	\hspace{-7mm} \iddots\\
+	\check{J_k}\otimes \cdots \otimes \hat{J_k}\otimes I_n
+	\end{bmatrix}^T 
+	\begin{bmatrix}
+	(I_{k^m}\otimes A_0)\Omega_k+\Omega_k^T(I_{k^m}\otimes A_0^T) & \Omega_k^T(I_{k^m}\otimes A_1^T) & \cdots & \Omega_k^T(I_{k^m}\otimes A_m^T)\\
+	(I_{k^m}\otimes A_1)\Omega_k &  0 & \cdots & 0\\
+	\vdots & \vdots & \ddots & \vdots\\
+	(I_{k^m}\otimes A_m)\Omega_k & 0 & \cdots & 0
+	\end{bmatrix}&\\
+	& \indent \indent \cdot \begin{bmatrix}
+	\hat{J_k}\otimes \cdots \otimes \hat{J_k} \otimes I_n \\
+	\hat{J_k}\otimes \cdots \otimes \check{J_k}\otimes I_n \\
+	\hspace{-7mm} \iddots \\
+	\check{J_k}\otimes \cdots \otimes \hat{J_k}\otimes I_n
+	\end{bmatrix} (a_m^{[k+1]}\otimes a_{m-1}^{[k+1]}\otimes \cdots \otimes a_1^{[k+1]}\otimes I_n)<0, & \nonumber\\
+	\end{flalign*}
+	 where $\Omega_k = rX_k+\bar{r}\bar{X}_k \in\mathbb{R}^{k^mn}$. We can apply Lemma \ref{lemma:4} to get another sufficient LMI condition without uncertain parameters but the sufficient condition is more conservative. 
+\end{remark}
+
+ \ \\ When the form of uncertain parameters changes, Theorem \ref{theorem:2} can also be applied, as the following corollary shows:
+\begin{corollary} \label{corollary:1}
+	Fractional-order uncertain system is defined by:
+	\begin{flalign} 
+	D^\alpha x(t) = Sx(t),\label{system_S}
+	\end{flalign}
+	where $S = S_0 + \sum\limits_{i=1}^{m} s_iS_i$, $S_i \in \mathbb{R}^{n\times n}$ are known matrices and $s_i \in \mathbb{R}$ are unknown parameters with $|s_i|\leq s, s>0$. Then system \eqref{system_S} is robustly asymptotically stable for any parameters $s_i$ if the following conditions are satisfied:
+	\begin{flalign}
+	A_0 = S_0, \ A_i = sS_i, \ a_i = \dfrac{s_i}{s},\ A=A_0 +\sum_{i=1}^ma_iA_i. \label{new_system_S}
+	\end{flalign}
+	There  exists a positive integer $k$, (2m+1) matrices $X_k \in \mathbb{H}^{k^mn}>0$ and  $Q_{k,h}, \, P_{k,h} \in \mathbb{H}^{k^{m-h+1}(k+1)^{h-1}n}, Q_{k,h}>0,\ h=1,2,...,m$, such that the LMI conditions in Theorem \ref{theorem:2} are satisfied with system matrix defined by \eqref{new_system_S}.
+\begin{proof} Note that
+	\begin{flalign}
+	S &= S_0 + \sum_{i=1}^{m} s_iS_i = A_0 + \sum_{i=1}^{m} \dfrac{s_i}{s}\cdot sS_i = A_0 + \sum_{i=1}^{m} a_i A_i. \nonumber 
+	\end{flalign}
+	The eigenvalues of $S$ are the same as the eigenvalues of $A$. When Theorem \ref{theorem:2} holds, we can conclude that the eigenvalues of $A$ satisfy \eqref{eigArg}. So the eigenvalues of $S$ also satisfy \eqref{eigArg}. From Lemma \ref{lemma:1}, system \eqref{system_S} is robustly asymptotically stable.
+\end{proof}
+\end{corollary}
+\begin{corollary}\label{corollary:2}
+	(polytopic uncertainties)Fractional-order uncertain system is defined by:
+	\begin{flalign} 
+	D^\alpha x(t) = Bx(t), \label{system_polytopic}
+	\end{flalign}
+	where $B = \sum\limits_{i=0}^m \beta_iB_i$. $B_i \in \mathbb{R}^{n\times n}$ are known matrices and $\beta_i \in \mathbb{R}$, $\sum\limits_{i=0}^m\beta_i = 1$, 0$\leq\beta_i\leq$1. Then system \eqref{system_polytopic} is robustly asymptotically stable for any uncertain parameters $\beta_i$ if the following conditions are satisfied:
+    \begin{equation} \label{polytopic_parameter}
+    \begin{split} 
+    &A_0 = B_i + \dfrac{1}{2}\sum_{l = 0, l\neq i}^{m}B_l, \  \{A_1,A_2,\cdots A_m\} = \{\frac{1}{2}B_l (l\neq i)\}, \\
+    &\{a_1,a_2,\cdots, a_m\} = \{2\dfrac{\beta_l}{\beta_i}-1 \, (l\neq i) \}, \ \  A=A_0 +\sum_{l=1}^ma_lA_l.
+    \end{split}
+    \end{equation}  
+    For each $i=0,1,...,m$, there  exists a positive integer $k$, (2m+1) matrices $X_k \in \mathbb{H}^{k^mn}>0$ and  $Q_{k,h}, \, P_{k,h} \in \mathbb{H}^{k^{m-h+1}(k+1)^{h-1}n}, Q_{k,h}>0,\ h=1,2,...,m$, such that the LMI conditions in Theorem \ref{theorem:2} are satisfied with system matrix defined by \eqref{polytopic_parameter}.
+    \begin{proof}
+    Suppose that $\beta_i = max \; \beta_l > 0, l=0,1,...,m$. Then we get:
+    \begin{flalign}
+    B&= \beta_i(B_i  + \frac{1}{2} \sum_{l = 0, l \neq i}^{m} B_l + \frac{1}{2}\sum_{l = 0, l\neq i}^{m}(2\frac{\beta_l}{\beta_i}-1)B_l) \nonumber \\
+    & = \beta_i(A_0 + \sum_{l = 1}^{m}a_l A_l) \nonumber \\
+    & = \beta_iA. \nonumber
+    \end{flalign}
+    \par Similar to the proof of Corollary \ref{corollary:1}, the eigenvalues of $B$ satisfy \eqref{eigArg} if the eigenvalues of $A$ satisfy \eqref{eigArg}. From Lemma \ref{lemma:1}, system \eqref{system_polytopic} is robustly asymptotically stable for $\beta_i = max\, \beta_j, j=0,1,...,m$. When $i$ is taken from $0$ to $m$, system \eqref{system_polytopic} is robustly asymptotically stable for any unknown parameters $\beta_i$. 
+    \end{proof}
+\end{corollary}
+
+\section{Numerical Examples}                                                                             
+Two numerical examples are given to show that our method is less conservative than the results in \cite{Chen2015, Far2011}.
+\begin{example}
+	Consider the following fractional-order system \eqref{system_S} contains uncertain parameters $s_1,s_2$ with system order $\alpha=0.65$ and
+	\begin{equation} \label{example1_def}
+	\begin{split}
+	&S_0 = \begin{bmatrix}-2 & 0 & 0\\0  & 1.295 & -4.83\\ 0  & 4.83  & 1.295	\end{bmatrix}, \indent \indent  
+	S_1 = \begin{bmatrix}-0.0444 &  -0.4179 &  -1.8490\\ 0.4962 &  -0.5303  &  1.5407\\ 0.7165  &  1.9519 &   1.6531 \end{bmatrix},   \\
+	&\hspace{2cm}S_2 = \begin{bmatrix}  2.3695 &  -1.3171  &  1.7698 \\ -3.2103 &   1.4378  & -3.1459 \\ -1.9050 &  -2.9076  & 1.2301\end{bmatrix}. 
+	\end{split}
+	\end{equation}
+	\par We want to calculate the max $s$ for $|s_i| < s$ such that system \eqref{system_S} remains stable. Using the method in \cite{Chen2015}, $s_{max} = 0.133$. The result of our method is $s_{max} = 0.746$ with polynomial order $k=2$, which is less conservative. When $s=0.746$, uncertain parameters $s_1, s_2$ take a random value in [-0.746, 0.746]. By using Lemma \ref{lemma:1}, we can test whether the eigenvalues of system \eqref{system_S} are stable. The eigenvalue distribution of matrix S is shown in Figure \ref{example1_poles}. 
+	\begin{figure}[H]
+		\centering
+	    \includegraphics[width=0.6\textwidth]{picture/exaplme1_poles.eps}
+		\caption{The eigenvalue distribution of matrix S with $s=0.746$.} 
+		\label{example1_poles} 
+	\end{figure}
+    \par  From Figure \ref{example1_poles}, we can conclude that all eigenvalues of matrix S are all in stable region with $s = 0.746$. Randomly choose $s_1=  -0.1341 ,s_2 =  0.4728$, the state response of system \eqref{system_S} with initial state $\begin{bmatrix}1 & -2 & 3\end{bmatrix}^T$ is shown in Figure \ref{example1_state1}. 
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[width=0.6\textwidth]{picture/example1_state1_new.eps}
+    	\caption{The state response of system \eqref{system_S} with $s_1=  -0.1341 ,s_2 =  0.4728$.} 
+    	\label{example1_state1} 
+    \end{figure}
+    Select $s_2$ at the stable boundary, namely $s_1 = -0.1341,s_2 =  0.746$. The state response of the system \eqref{system_S} with initial state $\begin{bmatrix}1 & -2 & 3\end{bmatrix}^T$ is shown in Figure \ref{example1_state2}.
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[width=0.6\textwidth]{picture/example1_state2_new.eps}
+    	\caption{The state response of system system \eqref{system_S} with $s_1=  -0.1341,s_2 =  0.746$.} 
+    	\label{example1_state2} 
+    \end{figure}
+    \par From Figure \ref{example1_state1} and Figure \ref{example1_state2}, the state response gradually converges to 0. So we can conclude that Theorem \ref{theorem:2} and Corollary \ref{corollary:1} is less conservative than the results in \cite{Chen2015}. 
+\end{example}
+
+\indent  \\
+\begin{example}
+	Fractional-order system \eqref{system_polytopic} with system order $\alpha = 0.9$ is defined by:
+	\begin{flalign} 
+	B_0 = \begin{bmatrix}-2.2204 &-8.3978 \\ 1.6059 & 3.0204\end{bmatrix}, \ B_1 = \begin{bmatrix}1.8823 &  -5.2613 \\4.9815 &-12.3823\end{bmatrix}, \ B_2 = \begin{bmatrix}
+	11.1328 &  -23.8140 \\7.9116 & -10.3328\end{bmatrix}. \label{polytopic_def} 
+	\end{flalign}
+	\par We want to check whether system \eqref{system_polytopic} is stable for any combination of polytopic uncertain parameters. By applying Corollary \ref{corollary:2}, the following three systems are defined for $j=0,1,2$:
+	\begin{flalign}
+	A_0^j = B_0 + \dfrac{1}{2}B_1 +\dfrac{1}{2}B_2, \ \ A_1^j = \dfrac{1}{2}B_1, \ \ A_2^j = \dfrac{1}{2}B_2. \label{polytopic_1} 
+	\end{flalign} 
+	\par Applying the method in \cite{Chen2015}, system \eqref{polytopic_1} for $j=0$ cannot be judged as stable or unstable. And using the method in \cite{Far2011}, polytopic uncertain system \eqref{system_polytopic} with system matrices \eqref{polytopic_def} can't be judged as stable either. While applying our method, system \eqref{polytopic_1} for $j=0,1,2$
+	are all stable. So system \eqref{system_polytopic} with definition \eqref{polytopic_def} is robustly asymptotically stable. When polytopic parameters $\beta_1, \beta_2, \beta_3$ take a random value in [0, 1], the eigenvalue distribution of matrix B is shown in Figure \ref{example2_poles}.
+	 \begin{figure}[H]
+		\centering
+		\includegraphics[width=0.6\textwidth]{picture/example2_poles.eps}
+		\caption{The eigenvalue distribution of matrix B} 
+		\label{example2_poles} 
+	\end{figure} 
+    \par From Figure \ref{example2_poles}, the eigenvalues of matrix B are all in stable region so system \eqref{system_polytopic} is asymptotically stable. Randomly choosing $\beta_0 = 0.1356$, $\beta_1 = 0.2276$, and $\beta_3 = 0.6368$. The state response of system  \eqref{system_polytopic} with initial state $\begin{bmatrix}1&-2\end{bmatrix}^T$ is shown in Figure \ref{example2_state}.
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[width=0.6\textwidth]{picture/example2_state_new.eps}
+    	\caption{The state response with $\beta_0 = 0.1356, \beta_1 = 0.2276, \beta_3 = 0.6368$} 
+    	\label{example2_state} 
+    \end{figure}
+    \par From Figure \ref{example2_state}, the state response is asymptotically stable. In conclusion, our result is less conservative than others.
+\end{example}
+\section{Conclusions}
+\par In this paper, we consider the robust stability of fractional-order linear system with structured uncertain parameters and fractional-order 0\textless\,$\alpha$\,\textless1. A sufficient LMI condition with uncertain parameters is obtained by finding a parameter-dependent polynomially function. Then the generalized KYP Lemma is applied to decouple LMI condition from uncertain parameters. In addition, problems such as polytopic uncertainties can also be solved by our method. All results are expressed through LMI, which are very convenient to be used in practice. Finally, numerical examples show that our approach is less conservative than other methods.  
+\section*{Acknowledgments}
+\par The work is partially supported by the National Natural Science Foundation of China under Grants 62073217, 61374030, 61533012 and 52041502.
+\begin{thebibliography}{}
+
+	\bibitem[Abooee et~al.(2017)Abooee, Adelipour and Haeri]{Abo2017} 
+	Abooee, A., Adelipour, S., \& Haeri, M. (2017). Robust stability and stabilization of LTI fractional order systems with polytopic and interval uncertainties. \emph{In 2017 Iranian Conference on Electrical Engineering (ICEE)} (pp. 2253-2258). IEEE.
+	
+	\bibitem[Alagoz et~al.(2015)Alagoz, Yeroglu, Senol and Ates]{Ala2015}
+	Alagoz, B. B., Yeroglu, C., Senol, B., \& Ates, A. (2015). Probabilistic robust stabilization of fractional order systems with interval uncertainty. \emph{ISA transactions}, 57, 101-110.
+	
+	\bibitem[Azar et~al.(2017)Azzr, Vaidyanathan and Ouannas]{Azar2017}
+	Azar, A. T., Vaidyanathan, S., \& Ouannas, A. (Eds.). (2017). \emph{Fractional order control and synchronization of chaotic systems} (Vol. 688). Springer.
+	
+	\bibitem[Azarmi et~al.(2020)Azarmi, Tavakoli-Kakhki, Fatehi and Sedigh]{Azarmi2020}
+	Azarmi, R., Tavakoli-Kakhki, M., Fatehi, A., \& Sedigh, A. K. (2020). Robustness analysis and design of fractional order $I^\lambda D^\mu$ controllers using the small gain theorem. \emph{International Journal of Control}, \emph{93}(3), 449-461. 
+	
+	\bibitem[Beschi et~al.(2017)Beschi, Padula and Visioli]{Bes2017}
+	Beschi, M., Padula, F., \& Visioli, A. (2017). The generalised isodamping approach for robust fractional PID controllers design. \emph{International Journal of Control}, \emph{90}(6), 1157-1164. 
+	
+	\bibitem[Bliman(2004a)]{Bli2004a}
+	Bliman, P. A. (2004a). A convex approach to robust stability for linear systems with uncertain scalar parameters. \emph{SIAM journal on Control and Optimization}, \emph{42}(6), 2016-2042.
+	
+	\bibitem[Bliman(2004b)]{Bli2004b}
+	Bliman, P. A. (2004b). An existence result for polynomial solutions of parameter-dependent LMIs. \emph{Systems \& Control Letters}, \emph{51}(3-4), 165-169.
+	
+	\bibitem[Chen et~al.(2015)Chen, Wu, He and Yin]{Chen2015}
+	Chen, L., Wu, R., He, Y., \& Yin, L. (2015). Robust stability and stabilization of fractional-order linear systems with polytopic uncertainties. \emph{Applied mathematics and computation}, 257, 274-284.
+	
+	\bibitem[Farges et~al.(2010)Farges, Moze and Sabatier]{Far2010}
+	Farges, C., Moze, M., \& Sabatier, J. (2010). Pseudo-state feedback stabilization of commensurate fractional order systems. \emph{Automatica}, \emph{46}(10), 1730-1734.
+	
+	\bibitem[Farges et~al.(2011)Farges, Sabatier and Moze]{Far2011}
+	Farges, C., Sabatier, J., \& Moze, M. (2011). Fractional order polytopic systems: robust stability and stabilisation. \emph{Advances in Difference Equations}, \emph{2011}(1), 35.
+	
+	\bibitem[Gao(2015)]{Gao2015}
+	Gao, Z. (2015). Robust stabilization criterion of fractional-order controllers for interval fractional-order plants. \emph{Automatica}, \emph{61}, 9-17.
+	
+	\bibitem[Ibrir et~al.(2015)Ibrir and Bettayeb]{Ibr2015}
+	Ibrir, S., \& Bettayeb, M. (2015). New sufficient conditions for observer-based control of fractional-order uncertain systems. \emph{Automatica}, 59, 216-223.
+	
+	\bibitem[Iwasaki et~al.(2000)Iwasaki, Meinsma and Fu]{Iwa2000}
+	Iwasaki, T., Meinsma, G., \& Fu, M. (2000). Generalized S-procedure and finite frequency KYP lemma. \emph{Mathematical Problems in Engineering}, 6.
+	
+	\bibitem[Iwasaki and Hara(2005)]{Iwa2005}
+	Iwasaki, T., \& Hara, S. (2005). Generalized KYP lemma: Unified frequency domain inequalities with design applications. \emph{IEEE Transactions on Automatic Control}, \emph{50}(1), 41-59.
+	
+	\bibitem[Krijnen et~al.(2018)Krijnen, van Ostayen and HosseinNia]{Kri2018}
+	Krijnen, M. E., van Ostayen, R. A., \& HosseinNia, H. (2018). The application of fractional order control for an air-based contactless actuation system. \emph{ISA transactions}, \emph{82}, 172-183.
+	
+	\bibitem[Li(2018)]{Li2018}
+	Li, S. (2018). Robust stability and stabilization of LTI fractional-order systems with poly-topic and two-norm bounded uncertainties. \emph{Advances in Difference Equations}, \emph{2018}(1), 1-13.
+	
+	\bibitem[Li et~al.(2017)Li, Liu, Dehghan, Chen and Xue]{LiZ2017}
+	Li, Z., Liu, L., Dehghan, S., Chen, Y., \& Xue, D. (2017). A review and evaluation of numerical tools for fractional calculus and fractional order controls. \emph{International journal of control}, \emph{90}(6), 1165-1181.
+	
+	\bibitem[Lu and Chen(2010)]{Lu2010}
+	Lu, J. G., \& Chen, Y. (2010). Robust Stability and Stabilization of Fractional-Order Interval Systems with the Fractional Order $\alpha $: The  0\textless\,$\alpha$\,\textless1 Case. \emph{IEEE Transactions on Automatic Control}, \emph{1}(55), 152-158.
+	
+	\bibitem[Lu and Chen(2013a)]{Lu2013a}
+	Lu, J. G., \& Chen, Y. (2013a). Stability and stabilization of fractional-order linear systems with convex polytopic uncertainties. \emph{Fractional Calculus and Applied Analysis}, \emph{16}(1), 142-157.
+	
+	\bibitem[Lu et~al.(2013b)Lu, Y. Chen and Chen]{Lu2013b}\label{key}
+	Lu, J. G., Chen, Y., \& Chen, W. (2013b). Robust asymptotical stability of fractional-order linear systems with structured perturbations. \emph{Computers \& Mathematics with Applications}, \emph{66}(5), 873-882.
+	
+	\bibitem[Lu and Zhao(2017)]{Lu2017}
+	Lu, J. G., \& Zhao, Y. A. (2017). Decentralised robust $H_\infty$ control of fractional-order interconnected systems with uncertainties. \emph{International Journal of Control}, \emph{90}(6), 1221-1229. 
+	
+	\bibitem[Matignon(1996)]{Mat1996}
+	Matignon, D.(1996). Stability results for fractional differential equations with applications to control processing, \emph{Computational engineering in systems applications}, (Vol.2, No.1, pp.963-968).
+	
+    \bibitem[Matusu et~al.(2017)Matusu, Senol and Pekar]{Matusu2017}
+     Matu{\v{s}}{\u{u}}, R., \c{S}enol, B., \& Peka\v{r}, L.(2017). Robust stability of fractional order polynomials with complicated uncertainty structure. \emph{PloS one}, \emph{12}(6), e0180274.
+    
+    \bibitem[Podlubny(1998)]{Pod1998}
+    Podlubny, I. (1998). \emph{Fractional differential equations: an introduction to fractional derivatives, fractional differential equations, to methods of their solution and some of their applications}. Elsevier.
+    
+    \bibitem[Sun et~al.(2018)Sun, Zhang, Baleanu, W. Chen and Chen]{Sun2018}
+    Sun, H., Zhang, Y., Baleanu, D., Chen, W., \& Chen, Y. (2018). A new collection of real world applications of fractional calculus in science and engineering. \emph{Communications in Nonlinear Science and Numerical Simulation}, \emph{64}, 213-231.
+    
+    \bibitem[Vic et~al.(2015)Victor, Melchior, L{\'e}vine and Oustaloup]{Vic2015}
+    Victor, S., Melchior, P., L{\'e}vine, J., \& Oustaloup, A. (2015 ). Flatness for linear fractional systems with application to a thermal system. \emph{Automatica}, \emph{57}, 213-221.
+    
+    \bibitem[Xie et~al.(2017)Xie, Lu, Zhao and Miao]{Xie2017}
+    Xie, F., Lu, J., Zhao, Y., \& Miao, Y. (2017). Robust $H\infty$ analysis and control of fractional-order systems with convex polytopic uncertainties. \emph{In 2017 29th Chinese Control And Decision Conference (CCDC)} (pp. 2802-2807). IEEE.
+    
+    \bibitem[Yang and Hou(2018)]{Yang2018}
+    Yang, J., \& Hou, X. (2018). Robust Stability Analysis of Fractional-Order Linear Systems with Polytopic Uncertainties. \emph{In Proceedings of the 3rd International Conference on Robotics, Control and Automation} (pp. 47-51).
+    
+   \bibitem[Zhang et~al.(2010)Zhang, Tsiotras and Iwasaki]{Zhang2010}
+   Zhang, X., Tsiotras, P., \& Iwasaki, T. (2010). Lyapunov-based exact stability analysis and synthesis for linear single-parameter dependent systems. \emph{International journal of control}, \emph{83}(9), 1823-1838.
+   
+   \bibitem[Zheng et~al.(2020)Zheng, Liang, Liu, Yang and Xie]{Zheng2020}
+   Zheng, S., Liang, B., Liu, F., Yang, Z., \& Xie, Y. (2020). Robust stability of fractional order system with polynomial uncertainties based on sum-of-squares approach. \emph{Journal of the Franklin Institute}.
+
+
+\end{thebibliography}
+\end{document}
