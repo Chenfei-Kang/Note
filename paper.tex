@@ -54,7 +54,7 @@
 
 % \articletype{ARTICLE TEMPLATE}% Specify the article type or omit as appropriate
 
-\title{Robust stability of fractional-order systems with structured uncertain parameters}
+\title{Robust stability of fractional-order systems with structured uncertain parameters: The 0\textless\,$\alpha$\,\textless1 case}
 
 \author{
 \name{Chenfei Kang\textsuperscript{a,b}, \,Junguo Lu\textsuperscript{a,b,*} \thanks{*Corresponding author, email: jglu@sjtu.edu.cn}}
@@ -65,27 +65,28 @@
 
 \begin{abstract}
 \sloppy{}
-In this paper, the robust stability for fractional-order linear time-invariant (LTI) systems with order: 0\textless\,$\alpha$\,\textless1 and structured uncertain parameters is considered. First, new sufficient conditions for the robust stability are presented by searching a parameter-dependent linear matrix inequality (LMI) solution. Then, stability conditions are separated from structured uncertain parameters by applying the Generalized Kalman-Yakubovi\v{c}-Popov (KYP) Lemma. It shows that the stability of the above fractional-order uncertain systems can be obtained by LMI conditions. In addition, other types of uncertainties such as polytopic uncertainties can also be resolved using this method. Finally, numerical examples are given to show the less conservatism of our methods. 
+In this paper, the robust stability for fractional-order linear time-invariant (LTI) systems with order: 0\textless\,$\alpha$\,\textless1 and structured uncertain parameters is considered. Firstly, new sufficient conditions for the robust stability of fractional-order systems are presented by searching a parameter-dependent linear matrix inequality (LMI) solution which contains uncertain parameters. The solution of LMI depends on uncertain parameters, which reduces the conservatism of stable conditions. Secondly, LMI conditions are separated from uncertain parameters by applying the Generalized Kalman-Yakubovi\v{c}-Popov (KYP) Lemma thus the stability of fractional-order uncertain systems can be checked directly. In addition, other types of uncertainties such as polytopic uncertainties can also be resolved using our methods. Finally, numerical examples are given to show the less conservatism of our methods. 
 \end{abstract}
 
 
 \begin{keywords}
-	Fractional-order system; robust stability; generalized Kalman-Yakubovi\v{c}-Popov (KYP) Lemma; linear matrix inequality; structured uncertain parameters;
+	Fractional-order system; robust stability; generalized Kalman-Yakubovi\v{c}-Popov (KYP) Lemma; linear matrix inequality; structured uncetain parameters;
 \end{keywords}
 \section{Introduction}
 
-\par Fractional calculus is a generalization of integer order calculus, which can be traced back to the work of famous mathematician Leibniz, Laplace, Riemann and other scholars (\citealp{Pod1998}). Since complex physical systems in the real world can be described by fractional calculus more accurately. Nowadays, there are increasing application of fractional calculus in science and engineering (\citealp{Vic2015, Sun2018}), such as electrical spectroscopy, random optimal search, robotics, signal and image processing, etc. Another important application is fractional-order control (\citealp{Azar2017,Azarmi2020, Bes2017, LiZ2017}). Benefited from the efforts of many scholars, there is a rapid development in fractional calculus.
+\par Fractional calculus is a generalization of integer order calculus, which can be traced back to the work of famous mathematician Leibniz, Laplace, Riemann and oth er scholars (\citealp{Pod1998}). Since complex physical systems in the real world can be described by fractional calculus more accurately, there are increasing application of fractional calculus in science and engineering (\citealp{Gao2019, Sun2018, Vic2015, Veer2019}), such as electrical spectroscopy, random optimal search, robotics, signal and image processing, etc. Another important application is fractional-order control (\citealp{Azar2017, Azarmi2020, Bes2017, Choud2020, LiZ2017}). Benefited from the efforts of many scholars, there is a rapid development in fractional calculus.
 
-\par System stability has always been the core issue of control theory, including fractional-order systems. \cite{Mat1996} indicated that fractional-order systems is stable if and only if the eigenvalues of the system matrix are distributed in the stable region. \cite{Far2010} proposed a sufficient and necessary LMI condition for fractional-order systems with system order 0\textless\,$\alpha$\,\textless1, which is very convenient to check. But fractional-order systems usually contain various uncertainties due to measurement errors or external factors such as time and temperature. And it causes some difficulty to the analysis of the stability for the fractional-order systems. Since system matrix contains uncertainties, the eigenvalues or LMI solutions can't be calculated directly.
-\par There are many kinds of fractional-order system uncertainties, such as interval uncertainties (\citealp{Lu2010,Ala2015,Gao2015}), norm uncertainties (\citealp{Ibr2015,Lu2017}), polytopic uncertainties and mix uncertainties (\citealp{Matusu2017}). For polytopic uncertainties, \cite{Far2011} studied the stability of fractional-order polytopic uncertain systems with system order 0\textless\,$\alpha$\,\textless1. Then a sufficient condition was established by finding additional matrices to eliminate uncertain polytopic parameters. In \cite{Lu2013a}, sufficient stability conditions of fractional-order LTI systems with convex polytopic uncertainties and order 0\textless\,$\alpha$\,\textless2 were extended by introducing additional matrices in terms of LMI. When system order is 0\textless$\alpha$\textless1, parameter $\theta = min\left\lbrace \pi-\alpha\dfrac{\pi}{2}, \dfrac{\pi}{2}\right\rbrace$ in Theorem 2.1 of \cite{Lu2013a}, which caused increasing conservatism. In \cite{Lu2013b}, the robust stability for fractional-order system with structured uncertain parameters and order 1\textless$\alpha$\textless2 was discussed. Sufficient and necessary conditions were obtained through $\mu$-analysis. In \cite{Chen2015}, new sufficient conditions for robust stability of fractional-order systems with polytopic uncertainties were presented, which allowed second order uncertain parameters for both 0\textless\,$\alpha$\,\textless1 and 1\textless\,$\alpha$\,\textless2. In addition, other uncertainties mixed polytopic uncertainties issues have also been extensively studied. \cite{Abo2017} presented a sufficient condition for robust stability of fractional-order LTI system with polytopic and interval uncertainties. The sufficient condition was obtained for system order 1\textless\,$\alpha$\,\textless2. Since the stable area of 0\textless\,$\alpha$\,\textless1 contains 1\textless\,$\alpha$\,\textless2, the sufficient condition can apply to 0\textless\,$\alpha$\,\textless1 conservatively. In \cite{Xie2017}, the robust $H_\infty$ analysis for fractional-order LTI system subjected to polytopic uncertainties was investigated. A sufficient condition was obtained in terms of LMI by applying $H_\infty$ bounded real Lemma and generalized KYP Lemma.  And \cite{Li2018} investigated the robust stability of LTI fractional-order systems with polytopic and two-norm bounded uncertainties. Based on the equivalent condition in \cite{Far2010}, a sufficient condition was obtained. \cite{Yang2018} established a new sufficient condition for fractional-order systems with polytopic uncertainties for 1\textless\,$\alpha$\,\textless2, which was the promotion of \cite{Lu2013b}. In \cite{Zheng2020}, the robust stability of fractional-order systems with polynomial uncertainties was considered. The system uncertainties were polynomial functions of the parameters which is an extension of polytopic uncertainties. Sufficient conditions was obtained using Sum of Squares (SOS) programs to check the system stability for 0\textless\,$\alpha$\,\textless2.
+\par System stability has always been the core issue of fractional-order systems. \textbf{\cite{Mat1996} indicated that fractional-order systems is stable if and only if the eigenvalues of the system matrix are distributed in the stable region.} \cite{Far2010} proposed a sufficient and necessary LMI condition for fractional-order systems with system order 0\textless\,$\alpha$\,\textless1, which is very convenient to check. But fractional-order systems usually contain various uncertainties due to measurement errors or external factors such as time and temperature, which makes it difficult to analyze the stability of fractional-order systems. Since system matrix contains uncertainties, the eigenvalues or LMI solutions can't be calculated directly. There are many kinds of fractional-order system uncertainties, such as interval uncertainties (\citealp{Moh2019}), norm uncertainties (\citealp{Lu2017}), polytopic uncertainties(\citealp{Dinh2020, Li2020}) and mix uncertainties (\citealp{Matusu2017}). In this paper, we are committed to improving the stability methods for polytopic uncertainties, which widely exists in many actual systems.
+
+\par \textbf{For polytopic uncertainties, a commonly used method is the LMI stability constraint.} \cite{Far2011} studied the stability of fractional-order polytopic uncertain systems with system order 0\textless\,$\alpha$\,\textless1. Then a sufficient condition was established by finding additional matrices to eliminate uncertain polytopic parameters. In \cite{Lu2013a}, sufficient stability conditions of fractional-order LTI systems with convex polytopic uncertainties and order 0\textless\,$\alpha$\,\textless2 were extended by introducing additional matrices in terms of LMI. When system order is 0\textless$\alpha$\textless1, parameter $\theta = min\left\lbrace \pi-\alpha\dfrac{\pi}{2}, \dfrac{\pi}{2}\right\rbrace$ in Theorem 2.1 of \cite{Lu2013a}, which caused increasing conservatism. In \cite{Chen2015}, new sufficient conditions for robust stability of fractional-order systems with polytopic uncertainties were presented, which allowed second order uncertain parameters for both 0\textless\,$\alpha$\,\textless1 and 1\textless\,$\alpha$\,\textless2. In addition, other uncertainties mixed polytopic uncertainties issues have also been extensively studied. \cite{Abo2017} presented a sufficient condition for robust stability of fractional-order LTI system with polytopic and interval uncertainties. The sufficient condition was obtained for system order 1\textless\,$\alpha$\,\textless2. In \cite{Xie2017}, the robust $H_\infty$ analysis for fractional-order LTI system subjected to polytopic uncertainties was investigated. A sufficient condition was obtained in terms of LMI by applying $H_\infty$ bounded real Lemma and Generalized KYP Lemma. And \cite{Li2018} investigated the robust stability of LTI fractional-order systems with polytopic and two-norm bounded uncertainties. Based on the equivalent condition in \cite{Far2010}, a sufficient condition was obtained. \textbf{Other methods dealing with polytopic uncertainties included $\mu$-analysis, Sum-Of-Squares methods, etc.} In \cite{Lu2013b}, the robust stability for fractional-order systems with structured uncertain parameters and order 1\textless$\alpha$\textless2 was discussed. Sufficient and necessary conditions were obtained through $\mu$-analysis. \cite{Yang2018} established a new sufficient condition for fractional-order systems with polytopic uncertainties for 1\textless\,$\alpha$\,\textless2, which was the promotion of \cite{Lu2013b}. In \cite{Zheng2020}, the robust stability of fractional-order systems with polynomial uncertainties was considered. The system uncertainties were polynomial functions of the parameters which is an extension of polytopic uncertainties. Sufficient conditions was obtained using Sum of Squares (SOS) programs to check the system stability for 0\textless\,$\alpha$\,\textless2.
 
 
 % For interval uncertainties, sufficient and necessary conditions were presented in \cite{Lu2010} for fractional-order interval uncertain systems with 0\textless\,$\alpha$\,\textless1. In \cite{Lu2013b}, sufficient and necessary conditions for fractional-order interval uncertain systems with order 1\textless\,$\alpha$\,\textless2 were proposed by applying $\mu$-analysis. The stability problem was transformed into  structural singular values conditions. And a probabilistic stability method was proposed in \cite{Ala2015} for fractional-order systems with interval uncertainties. The stable probability distribution can be calculated according to the order of the system. Moreover, a graph-based method was used to check the stability of fractional-order systems with interval uncertainties in \cite{Gao2015}. For norm uncertainties, \cite{Ibr2015} considered the stability of fractional-order systems with norm-bounded uncertainties, which is an extension of \cite{Far2010}. And in \cite{Lu2017}, the decentralied robust $H_\infty$ control problem for fractional-order systems subject to  norm-bounded uncertainties was considered. Then sufficient conditions for designing feedback controller was proposed. For mixed uncertainties, robust stability for fractional-order polynomials with complicated uncertainties was studied in \cite{Matusu2017} and a graphical method was presented. Robust stability was investigated by grid sampling and numerical calculation.
 
 % Besides, other kinds of uncertain mixed polytopic uncertainties are also widely studied. \cite{Abo2017} presented a sufficient condition for robust stability of fractional-order LTI system with polytopic and interval uncertainties. The sufficient condition is obtained for system order 1\textless\,$\alpha$\,\textless2. Since the stable area of 0\textless\,$\alpha$\,\textless1 contains 1\textless\,$\alpha$\,\textless2, the sufficient condition can apply to 0\textless\,$\alpha$\,\textless1 conservatively. In \cite{Xie2017}, the robust $H_\infty$ analysis for fractional-order LTI system subjected to polytopic uncertainties was investigated. A sufficient condition was obtained in terms of LMI by applying $H_\infty$ bounded real Lemma and generalized KYP Lemma.  And \cite{Li2018} investigates the robust stability of LTI fractional-order systems with polytopic and two-norm bounded uncertainties. Based on the equivalent condition in \cite{Far2010}, a sufficient condition is obtained. \cite{Yang2018} established a new sufficient condition for fractional-order systems with polytopic uncertainties for 1\textless\,$\alpha$\,\textless2, which is the promotion of \cite{Lu2013b}. \cite{Zheng2020} studied the robust stability of fractional-order systems with polynomial uncertainties. The system uncertainties are polynomial functions of the parameters which is an extension of polytopic uncertainties. Sufficient conditions is obtained using Sum of Squares (SOS) programs to check the system stability for 0\textless\,$\alpha$\,\textless2.  
 
-\par As can be seen from the above discussion, there are few improvements for the pure polytopic uncertainties with system order 0\textless\,$\alpha$\,\textless1 in recent years. The LMI conditions in \cite{Far2011, Chen2015} etc. didn't contain uncertain parameters, which resulting in increased conservatism. The conclusions dealing with mixed uncertainties(\citealp{Abo2017, Xie2017} etc.) can be applied to this problem. But the methods will degenerate and lead to increased conservatism due to single polytopic uncertainties instead of mixed uncertainties. In this paper, we consider the robust stability of fractional-order LTI system with system order 0\textless\,$\alpha$\,\textless1, which contains structured uncertain parameters. Parameter-dependent LMI solution is introduced to reduce conservatism based on the Generalized KYP Lemma. Meanwhile, polytopic uncertainties can also be solved through this method and the result is less conservative than others. 
-\par The paper is organized as follow: In Section 2, necessary lemmas and properties are introduced. Then parameter-dependent LMI solution is described in Section 3. The basic idea is applying the condition in \cite{Far2010} to fractional-order uncertain system by searching a polynomial solution. And the sufficient LMI conditions are separated from uncertain parameters by using generalized KYP Lemma. Finally, numerical examples show that our result is less conservative than others.
+\par \textbf{As can be seen from the above discussion, there are few improvements for the pure polytopic uncertainties with system order 0\textless\,$\alpha$\,\textless1 in recent years to the best of our knowledge.} On the one hand, the existing methods dealing with polytopic uncertainties are relatively conservative. The sufficient LMI conditions in \cite{Far2011, Lu2013a, Chen2015} etc. introduced additional matrix to eliminate uncertain parameters. They didn't consider that the LMI conditions relies on uncertain parameters, which resulted in increased conservatism. On the other hand, the conclusions dealing with mixed uncertainties (\citealp{Abo2017, Li2018} etc.) can be applied to this problem. But the methods will degenerate and lead to increased conservatism due to single polytopic uncertainties instead of mixed uncertainties. Therefore, it's meaningful to find a less conservative method of the robust stability for fractional-order 0\textless\,$\alpha$\,\textless1 systems with polytopic uncertainties by searching parameter-dependent LMI solutions. 
+\par In this paper, we consider the robust stability of fractional-order LTI systems with system order 0\textless\,$\alpha$\,\textless1, which contains structured uncertain parameters. Parameter-dependent LMI solutions are found to reduce conservatism based on the Generalized KYP Lemma. Meanwhile, polytopic uncertainties can also be solved through this method and the result is less conservative than others. The paper is organized as follow: In Section 2, necessary lemmas and properties are introduced. Then parameter-dependent LMI solution is described in Section 3. The basic idea is applying the condition in \cite{Far2010} to fractional-order uncertain system by searching a polynomial solution. And the sufficient LMI conditions are separated from uncertain parameters by using the Generalized KYP Lemma. Finally, numerical examples show that our result is less conservative than others.
 
 
 
@@ -135,7 +136,7 @@ In this paper, the robust stability for fractional-order linear time-invariant (
 (z^{[k]}\otimes I_p)M= z^{[k]} \otimes M = (I_k\otimes M)(z^{[k]}\otimes I_q). 
 \end{flalign}
 \section{Problem formulation and preliminaries}
-\par Consider the following fractional-order uncertain system:
+\noindent Consider the following fractional-order uncertain system:
 \begin{flalign}
 D^\alpha x(t) = Ax(t), \label{system}
 \end{flalign}
@@ -454,7 +455,7 @@ Using Lemma \ref{lemma:2}, we can obtain a new sufficient condition for the stab
 
  \ \\ When the form of uncertain parameters changes, Theorem \ref{theorem:2} can also be applied, as the following corollary shows:
 \begin{corollary} \label{corollary:1}
-	Fractional-order uncertain system is defined by:
+	(structured parametric uncertainties)Fractional-order uncertain system is defined by:
 	\begin{flalign} 
 	D^\alpha x(t) = Sx(t),\label{system_S}
 	\end{flalign}
@@ -495,7 +496,7 @@ Using Lemma \ref{lemma:2}, we can obtain a new sufficient condition for the stab
 \end{corollary}
 
 \section{Numerical Examples}                                                                             
-Two numerical examples are given to show that our method is less conservative than the results in \cite{Chen2015, Far2011}.
+Two numerical examples are given to show that our method is less conservative than the results in \cite{Chen2015} and \cite{Far2011}.
 \begin{example}
 	Consider the following fractional-order system \eqref{system_S} contains uncertain parameters $s_1,s_2$ with system order $\alpha=0.65$ and
 	\begin{equation} \label{example1_def}
@@ -505,7 +506,8 @@ Two numerical examples are given to show that our method is less conservative th
 	&\hspace{2cm}S_2 = \begin{bmatrix}  2.3695 &  -1.3171  &  1.7698 \\ -3.2103 &   1.4378  & -3.1459 \\ -1.9050 &  -2.9076  & 1.2301\end{bmatrix}. 
 	\end{split}
 	\end{equation}
-	\par We want to calculate the max $s$ for $|s_i| < s$ such that system \eqref{system_S} remains stable. Using the method in \cite{Chen2015}, $s_{max} = 0.133$. The result of our method is $s_{max} = 0.746$ with polynomial order $k=2$, which is less conservative. When $s=0.746$, uncertain parameters $s_1, s_2$ take a random value in [-0.746, 0.746]. By using Lemma \ref{lemma:1}, we can test whether the eigenvalues of system \eqref{system_S} are stable. The eigenvalue distribution of matrix S is shown in Figure \ref{example1_poles}. 
+	\par We want to calculate the max $s$ for $|s_i| < s$ such that system \eqref{system_S} remains stable. Using the method in \cite{Chen2015}, $s_{max} = 0.133$. The result of our method is $s_{max} = 0.746$ with polynomial order $k=2$, which is less conservative.
+	\par When $s=0.746$, uncertain parameters $s_1, s_2$ take a random value in [-0.746, 0.746]. By using Lemma \ref{lemma:1}, we can test whether the eigenvalues of system \eqref{system_S} are stable. The eigenvalue distribution of matrix S is shown in Figure \ref{example1_poles}. 
 	\begin{figure}[H]
 		\centering
 	    \includegraphics[width=0.6\textwidth]{picture/exaplme1_poles.eps}
@@ -526,7 +528,7 @@ Two numerical examples are given to show that our method is less conservative th
     	\caption{The state response of system system \eqref{system_S} with $s_1=  -0.1341,s_2 =  0.746$.} 
     	\label{example1_state2} 
     \end{figure}
-    \par From Figure \ref{example1_state1} and Figure \ref{example1_state2}, the state response gradually converges to 0. So we can conclude that Theorem \ref{theorem:2} and Corollary \ref{corollary:1} is less conservative than the results in \cite{Chen2015}. 
+    \par From Figure \ref{example1_state1} and Figure \ref{example1_state2}, the state response gradually converges to 0 and system \eqref{system_S} remains stable. So we can conclude that Theorem \ref{theorem:2} and Corollary \ref{corollary:1} is less conservative than the results in \cite{Chen2015}. 
 \end{example}
 
 \indent  \\
@@ -540,8 +542,9 @@ Two numerical examples are given to show that our method is less conservative th
 	\begin{flalign}
 	A_0^j = B_0 + \dfrac{1}{2}B_1 +\dfrac{1}{2}B_2, \ \ A_1^j = \dfrac{1}{2}B_1, \ \ A_2^j = \dfrac{1}{2}B_2. \label{polytopic_1} 
 	\end{flalign} 
-	\par Applying the method in \cite{Chen2015}, system \eqref{polytopic_1} for $j=0$ cannot be judged as stable or unstable. And using the method in \cite{Far2011}, polytopic uncertain system \eqref{system_polytopic} with system matrices \eqref{polytopic_def} can't be judged as stable either. While applying our method, system \eqref{polytopic_1} for $j=0,1,2$
-	are all stable. So system \eqref{system_polytopic} with definition \eqref{polytopic_def} is robustly asymptotically stable. When polytopic parameters $\beta_1, \beta_2, \beta_3$ take a random value in [0, 1], the eigenvalue distribution of matrix B is shown in Figure \ref{example2_poles}.
+	\par Applying the method in \cite{Chen2015}, system \eqref{polytopic_1} for $j=0$ cannot be judged as stable or unstable. And using the method in \cite{Far2011}, system \eqref{system_polytopic} with system matrices \eqref{polytopic_def} can't be judged as stable either. While applying our method, system \eqref{polytopic_1} for $j=0,1,2$
+	are all stable. So system \eqref{system_polytopic} with definition \eqref{polytopic_def} is robustly asymptotically stable. 
+	\par When polytopic parameters $\beta_1, \beta_2, \beta_3$ take a random value in [0, 1], the eigenvalue distribution of matrix B is shown in Figure \ref{example2_poles}.
 	 \begin{figure}[H]
 		\centering
 		\includegraphics[width=0.6\textwidth]{picture/example2_poles.eps}
@@ -558,19 +561,19 @@ Two numerical examples are given to show that our method is less conservative th
     \par From Figure \ref{example2_state}, the state response is asymptotically stable. In conclusion, our result is less conservative than others.
 \end{example}
 \section{Conclusions}
-\par In this paper, we consider the robust stability of fractional-order linear system with structured uncertain parameters and fractional-order 0\textless\,$\alpha$\,\textless1. A sufficient LMI condition with uncertain parameters is obtained by finding a parameter-dependent polynomially function. Then the generalized KYP Lemma is applied to decouple LMI condition from uncertain parameters. In addition, problems such as polytopic uncertainties can also be solved by our method. All results are expressed through LMI, which are very convenient to be used in practice. Finally, numerical examples show that our approach is less conservative than other methods.  
+\par In this paper, the robust stability of fractional-order linear system with structured uncertain parameters and fractional-order 0\textless\,$\alpha$\,\textless1 has been considered. A sufficient LMI condition with uncertain parameters has been obtained by finding a parameter-dependent polynomially function. Then the Generalized KYP Lemma has been applied to decouple LMI condition from uncertain parameters. In addition, problems such as polytopic uncertainties can also be solved by our method. All results are expressed through LMI, which are very convenient to be used in practice. Eventually, two numerical examples have been presented which show that our approach is less conservative than other methods. Moreover, future work will consider the following issues: (i) the lower bound of integer k satisfying LMI conditions; (ii) the generalization of stability conditions for uncertain fractional-order systems with system order 1\textless\,$\alpha$\,\textless2.  
 \section*{Acknowledgments}
 \par The work is partially supported by the National Natural Science Foundation of China under Grants 62073217, 61374030, 61533012 and 52041502.
 \begin{thebibliography}{}
 
 	\bibitem[Abooee et~al.(2017)Abooee, Adelipour and Haeri]{Abo2017} 
-	Abooee, A., Adelipour, S., \& Haeri, M. (2017). Robust stability and stabilization of LTI fractional order systems with polytopic and interval uncertainties. \emph{In 2017 Iranian Conference on Electrical Engineering (ICEE)} (pp. 2253-2258). IEEE.
+	Abooee, A., Adelipour, S., \& Haeri, M. (2017). Robust stability and stabilization of LTI fractional order systems with polytopic and interval uncertainties. In \emph{2017 Iranian Conference on Electrical Engineering (ICEE)} (pp. 2253-2258). IEEE.
 	
-	\bibitem[Alagoz et~al.(2015)Alagoz, Yeroglu, Senol and Ates]{Ala2015}
-	Alagoz, B. B., Yeroglu, C., Senol, B., \& Ates, A. (2015). Probabilistic robust stabilization of fractional order systems with interval uncertainty. \emph{ISA transactions}, 57, 101-110.
+	%\bibitem[Alagoz et~al.(2015)Alagoz, Yeroglu, Senol and Ates]{Ala2015}
+	%Alagoz, B. B., Yeroglu, C., Senol, B., \& Ates, A. (2015). Probabilistic robust stabilization of fractional order systems with interval uncertainty. \emph{ISA transactions}, 57, 101-110.
 	
 	\bibitem[Azar et~al.(2017)Azzr, Vaidyanathan and Ouannas]{Azar2017}
-	Azar, A. T., Vaidyanathan, S., \& Ouannas, A. (Eds.). (2017). \emph{Fractional order control and synchronization of chaotic systems} (Vol. 688). Springer.
+	Azar, A. T., Vaidyanathan, S., \& Ouannas, A. (2017). \emph{Fractional order control and synchronization of chaotic systems}. Springer.
 	
 	\bibitem[Azarmi et~al.(2020)Azarmi, Tavakoli-Kakhki, Fatehi and Sedigh]{Azarmi2020}
 	Azarmi, R., Tavakoli-Kakhki, M., Fatehi, A., \& Sedigh, A. K. (2020). Robustness analysis and design of fractional order $I^\lambda D^\mu$ controllers using the small gain theorem. \emph{International Journal of Control}, \emph{93}(3), 449-461. 
@@ -585,22 +588,32 @@ Two numerical examples are given to show that our method is less conservative th
 	Bliman, P. A. (2004b). An existence result for polynomial solutions of parameter-dependent LMIs. \emph{Systems \& Control Letters}, \emph{51}(3-4), 165-169.
 	
 	\bibitem[Chen et~al.(2015)Chen, Wu, He and Yin]{Chen2015}
-	Chen, L., Wu, R., He, Y., \& Yin, L. (2015). Robust stability and stabilization of fractional-order linear systems with polytopic uncertainties. \emph{Applied mathematics and computation}, 257, 274-284.
+	Chen, L., Wu, R., He, Y., \& Yin, L. (2015). Robust stability and stabilization of fractional-order linear systems with polytopic uncertainties. \emph{Applied mathematics and computation}, \emph{257}, 274-284. 
 	
+	\bibitem[Choudhary et~al.(2020)Choudhary, Sivaramakrishnan and Kar]{Choud2020}
+	Choudhary, N., Sivaramakrishnan, J., \& Kar, I. N. (2020). Sliding mode control of uncertain fractional order systems with delay. \emph{International Journal of Control}, \emph{93}(4), 934-943.
+
+	\bibitem[Dinh et~al.(2020)Dinh, Mai and Duong]{Dinh2020}
+	Dinh, C. H., Mai, V. T., \& Duong, T. H. (2020). New Results on Stability and Stabilization of Delayed Caputo Fractional Order Systems with Convex Polytopic Uncertainties. \emph{Journal of Systems Science and Complexity}, \emph{33}(3), 563-583.
+ 
+
 	\bibitem[Farges et~al.(2010)Farges, Moze and Sabatier]{Far2010}
 	Farges, C., Moze, M., \& Sabatier, J. (2010). Pseudo-state feedback stabilization of commensurate fractional order systems. \emph{Automatica}, \emph{46}(10), 1730-1734.
 	
 	\bibitem[Farges et~al.(2011)Farges, Sabatier and Moze]{Far2011}
-	Farges, C., Sabatier, J., \& Moze, M. (2011). Fractional order polytopic systems: robust stability and stabilisation. \emph{Advances in Difference Equations}, \emph{2011}(1), 35.
+	Farges, C., Sabatier, J., \& Moze, M. (2011). Fractional order polytopic systems: robust stability and stabilisation. \emph{Advances in Difference Equations}, \emph{2011}(1), 35. 
 	
-	\bibitem[Gao(2015)]{Gao2015}
-	Gao, Z. (2015). Robust stabilization criterion of fractional-order controllers for interval fractional-order plants. \emph{Automatica}, \emph{61}, 9-17.
+	%\bibitem[Gao(2015)]{Gao2015}
+	%Gao, Z. (2015). Robust stabilization criterion of fractional-order controllers for interval fractional-order plants. \emph{Automatica}, \emph{61}, 9-17.
 	
-	\bibitem[Ibrir et~al.(2015)Ibrir and Bettayeb]{Ibr2015}
-	Ibrir, S., \& Bettayeb, M. (2015). New sufficient conditions for observer-based control of fractional-order uncertain systems. \emph{Automatica}, 59, 216-223.
+	%\bibitem[Ibrir et~al.(2015)Ibrir and Bettayeb]{Ibr2015}
+	%Ibrir, S., \& Bettayeb, M. (2015). New sufficient conditions for observer-based control of fractional-order uncertain systems. \emph{Automatica}, 59, 216-223.
 	
+    \bibitem[Gao (2019)Gao, Z.]{Gao2019}
+    Gao, Z.(2019). Fractional-order Kalman filters for continuous-time linear and nonlinear fractional-order systems using Tustin generating function. \emph{International Journal of Control}, \emph{92}(5), 960-974.
+
 	\bibitem[Iwasaki et~al.(2000)Iwasaki, Meinsma and Fu]{Iwa2000}
-	Iwasaki, T., Meinsma, G., \& Fu, M. (2000). Generalized S-procedure and finite frequency KYP lemma. \emph{Mathematical Problems in Engineering}, 6.
+	Iwasaki, T., Meinsma, G., \& Fu, M. (2000). Generalized S-procedure and finite frequency KYP lemma. \emph{Mathematical Problems in Engineering}, \emph{6}(2-3), 305-320.
 	
 	\bibitem[Iwasaki and Hara(2005)]{Iwa2005}
 	Iwasaki, T., \& Hara, S. (2005). Generalized KYP lemma: Unified frequency domain inequalities with design applications. \emph{IEEE Transactions on Automatic Control}, \emph{50}(1), 41-59.
@@ -614,45 +627,55 @@ Two numerical examples are given to show that our method is less conservative th
 	\bibitem[Li et~al.(2017)Li, Liu, Dehghan, Chen and Xue]{LiZ2017}
 	Li, Z., Liu, L., Dehghan, S., Chen, Y., \& Xue, D. (2017). A review and evaluation of numerical tools for fractional calculus and fractional order controls. \emph{International journal of control}, \emph{90}(6), 1165-1181.
 	
-	\bibitem[Lu and Chen(2010)]{Lu2010}
-	Lu, J. G., \& Chen, Y. (2010). Robust Stability and Stabilization of Fractional-Order Interval Systems with the Fractional Order $\alpha $: The  0\textless\,$\alpha$\,\textless1 Case. \emph{IEEE Transactions on Automatic Control}, \emph{1}(55), 152-158.
+	\bibitem[Li and Yang (2020)]{Li2020}
+	Li, H., \& Yang, G. H. (2020). Fault estimation for fractional-order linear systems with polytopic uncertainties in the finite frequency domain. \emph{International Journal of Systems Science}, \emph{51}(2), 389-403.
+
+	% \bibitem[Lu and Chen(2010)]{Lu2010}
+	% Lu, J. G., \& Chen, Y. (2010). Robust Stability and Stabilization of Fractional-Order Interval Systems with the Fractional Order $\alpha $: The  0\textless\,$\alpha$\,\textless1 Case. \emph{IEEE Transactions on Automatic Control}, \emph{1}(55), 152-158.
 	
 	\bibitem[Lu and Chen(2013a)]{Lu2013a}
 	Lu, J. G., \& Chen, Y. (2013a). Stability and stabilization of fractional-order linear systems with convex polytopic uncertainties. \emph{Fractional Calculus and Applied Analysis}, \emph{16}(1), 142-157.
 	
-	\bibitem[Lu et~al.(2013b)Lu, Y. Chen and Chen]{Lu2013b}\label{key}
+	\bibitem[Lu et~al.(2013b)Lu, Y. Chen and Chen]{Lu2013b}
 	Lu, J. G., Chen, Y., \& Chen, W. (2013b). Robust asymptotical stability of fractional-order linear systems with structured perturbations. \emph{Computers \& Mathematics with Applications}, \emph{66}(5), 873-882.
 	
 	\bibitem[Lu and Zhao(2017)]{Lu2017}
 	Lu, J. G., \& Zhao, Y. A. (2017). Decentralised robust $H_\infty$ control of fractional-order interconnected systems with uncertainties. \emph{International Journal of Control}, \emph{90}(6), 1221-1229. 
 	
 	\bibitem[Matignon(1996)]{Mat1996}
-	Matignon, D.(1996). Stability results for fractional differential equations with applications to control processing, \emph{Computational engineering in systems applications}, (Vol.2, No.1, pp.963-968).
+	Matignon, D.(1996). Stability results for fractional differential equations with applications to control processing, \emph{Computational engineering in systems applications}, \emph{2}(1), 963-968.
 	
     \bibitem[Matusu et~al.(2017)Matusu, Senol and Pekar]{Matusu2017}
      Matu{\v{s}}{\u{u}}, R., \c{S}enol, B., \& Peka\v{r}, L.(2017). Robust stability of fractional order polynomials with complicated uncertainty structure. \emph{PloS one}, \emph{12}(6), e0180274.
-    
+	 
+    \bibitem[Mohsenipour and Fathi Jegarkandi(2019)]{Moh2019}
+    Mohsenipour, R., \& Fathi Jegarkandi, M. (2019). Robust stability analysis of fractional‐order interval systems with multiple time delays. \emph{International Journal of Robust and Nonlinear Control}, \emph{29}(6), 1823-1839.
+
     \bibitem[Podlubny(1998)]{Pod1998}
     Podlubny, I. (1998). \emph{Fractional differential equations: an introduction to fractional derivatives, fractional differential equations, to methods of their solution and some of their applications}. Elsevier.
     
     \bibitem[Sun et~al.(2018)Sun, Zhang, Baleanu, W. Chen and Chen]{Sun2018}
     Sun, H., Zhang, Y., Baleanu, D., Chen, W., \& Chen, Y. (2018). A new collection of real world applications of fractional calculus in science and engineering. \emph{Communications in Nonlinear Science and Numerical Simulation}, \emph{64}, 213-231.
-    
+	
+    \bibitem[Veeresha et~al.(2019)Veeresha, Prakasha and Baskonus]{Veer2019}
+    Veeresha, P., Prakasha, D. G., \& Baskonus, H. M. (2019). An efficient technique for a fractional-order system of equations describing the unsteady flow of a polytropic gas. \emph{Pramana}, \emph{93}(5), 75.
+
     \bibitem[Vic et~al.(2015)Victor, Melchior, L{\'e}vine and Oustaloup]{Vic2015}
-    Victor, S., Melchior, P., L{\'e}vine, J., \& Oustaloup, A. (2015 ). Flatness for linear fractional systems with application to a thermal system. \emph{Automatica}, \emph{57}, 213-221.
+    Victor, S., Melchior, P., L{\'e}vine, J., \& Oustaloup, A. (2015). Flatness for linear fractional systems with application to a thermal system. \emph{Automatica}, \emph{57}, 213-221.
     
     \bibitem[Xie et~al.(2017)Xie, Lu, Zhao and Miao]{Xie2017}
-    Xie, F., Lu, J., Zhao, Y., \& Miao, Y. (2017). Robust $H\infty$ analysis and control of fractional-order systems with convex polytopic uncertainties. \emph{In 2017 29th Chinese Control And Decision Conference (CCDC)} (pp. 2802-2807). IEEE.
+    Xie, F., Lu, J., Zhao, Y., \& Miao, Y. (2017). Robust $H\infty$ analysis and control of fractional-order systems with convex polytopic uncertainties. In \emph{2017 29th Chinese Control And Decision Conference (CCDC)} (pp. 2802-2807). IEEE.
     
     \bibitem[Yang and Hou(2018)]{Yang2018}
-    Yang, J., \& Hou, X. (2018). Robust Stability Analysis of Fractional-Order Linear Systems with Polytopic Uncertainties. \emph{In Proceedings of the 3rd International Conference on Robotics, Control and Automation} (pp. 47-51).
+    Yang, J., \& Hou, X. (2018). Robust Stability Analysis of Fractional-Order Linear Systems with Polytopic Uncertainties. In \emph{Proceedings of the 3rd International Conference on Robotics, Control and Automation} (pp. 47-51). Association for Computing Machinery.
     
    \bibitem[Zhang et~al.(2010)Zhang, Tsiotras and Iwasaki]{Zhang2010}
    Zhang, X., Tsiotras, P., \& Iwasaki, T. (2010). Lyapunov-based exact stability analysis and synthesis for linear single-parameter dependent systems. \emph{International journal of control}, \emph{83}(9), 1823-1838.
    
    \bibitem[Zheng et~al.(2020)Zheng, Liang, Liu, Yang and Xie]{Zheng2020}
-   Zheng, S., Liang, B., Liu, F., Yang, Z., \& Xie, Y. (2020). Robust stability of fractional order system with polynomial uncertainties based on sum-of-squares approach. \emph{Journal of the Franklin Institute}.
+   Zheng, S., Liang, B., Liu, F., Yang, Z., \& Xie, Y. (2020). Robust stability of fractional order system with polynomial uncertainties based on sum-of-squares approach. \emph{Journal of the Franklin Institute}, \emph{357}(12), 8035-8058. 
+   
 
-
+   
 \end{thebibliography}
 \end{document}
